@@ -138,8 +138,10 @@ class DomTest extends TestCase
     public function testLoadFileBigTwicePreserveOption(): void
     {
         $dom = new Dom();
-        $dom->loadFromFile('tests/data/files/big.html',
-            (new Options())->setPreserveLineBreaks(true));
+        $dom->loadFromFile(
+            'tests/data/files/big.html',
+            (new Options())->setPreserveLineBreaks(true)
+        );
         $post = $dom->find('.post-row', 0);
         $this->assertEquals(
             "<p>Журчанье воды<br />\nЧерно-белые тени<br />\nВновь на фонтане</p>",
@@ -444,12 +446,13 @@ EOF;
 
     public function testLessThanCharacterInJavascript(): void
     {
-        $results = (new Dom())->loadStr('<html><head><script type="text/javascript">
+        $results = (new Dom())->loadStr(
+            '<html><head><script type="text/javascript">
             console.log(1 < 3);
         </script></head><body><div id="panel"></div></body></html>',
             (new Options())->setCleanupInput(false)
                 ->setRemoveScripts(false)
-            )->find('body');
+        )->find('body');
         $this->assertCount(1, $results);
     }
 

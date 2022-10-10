@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace PHPHtmlParser;
 
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use PHPHtmlParser\Exceptions\ChildNotFoundException;
 use PHPHtmlParser\Exceptions\CircularException;
 use PHPHtmlParser\Exceptions\NotLoadedException;
