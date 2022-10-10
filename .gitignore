@@ -3,6 +3,7 @@ composer.lock
 infection.log
 /vendor/
 .idea/
+.vscode/
 .php_cs.cache
 .phpunit.result.cache
 *.swp
