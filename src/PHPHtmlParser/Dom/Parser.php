@@ -186,7 +186,7 @@ class Parser implements ParserInterface
         } elseif($content->string(3) == '!--') {
             // comment tag
             $tag = $content->fastForward(3)
-                ->copyByToken(StringToken::CLOSECOMMENT(), true);
+                ->copyByToken(StringToken::CLOSECOMMENT(), false);
             $tag = (new Tag($tag))
                 ->setOpening('<!--')
                 ->setClosing('-->')

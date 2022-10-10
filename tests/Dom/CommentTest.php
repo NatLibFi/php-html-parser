@@ -9,26 +9,30 @@ use PHPUnit\Framework\TestCase;
 class CommentTest extends TestCase
 {
     /**
-     * @var Dom
+     * Data provider for testComment
+     *
+     * @return array
      */
-    private $dom;
+    public function getTestCommentData(): array
+    {
+        return [
+            ['<!-- test comment with number 2 -->'],
+            ['<!--<div><img />-->'],
+            ['<!--[if (gte IE 6)&(lte IE 8)]><script src="https://www.random.test.js" /></script><![endif]-->'],
+        ];
+    }
 
-    public function setUp(): void
+    /**
+     * Test comment handling
+     *
+     * @dataProvider getTestCommentData
+     */
+    public function testComment($comment): void
     {
         $dom = new Dom();
         $options = new Options();
         $options->setCleanupInput(false);
-        $dom->loadStr('<!-- test comment with number 2 -->', $options);
-        $this->dom = $dom;
-    }
-
-    public function tearDown(): void
-    {
-        Mockery::close();
-    }
-
-    public function testLoadCommentInnerHtml(): void
-    {
-        $this->assertEquals('<!-- test comment with number 2 -->', $this->dom->innerHtml);
+        $dom->loadStr($comment, $options);
+        $this->assertEquals($comment, $dom->innerHtml);
     }
 }
