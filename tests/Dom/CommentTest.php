@@ -9,9 +9,8 @@ use PHPUnit\Framework\TestCase;
 class CommentTest extends TestCase
 {
     /**
-     * Data provider for testComment
+     * Data provider for testComment.
      *
-     * @return array
      */
     public function getTestCommentData(): array
     {
@@ -23,9 +22,11 @@ class CommentTest extends TestCase
     }
 
     /**
-     * Test comment handling
+     * Test comment handling.
      *
      * @dataProvider getTestCommentData
+     *
+     * @param mixed $comment
      */
     public function testComment($comment): void
     {
