@@ -55,6 +55,8 @@ final class AttributeDTO
      */
     public function encodeValue(Encode $encode)
     {
-        $this->value = $encode->convert($this->value);
+        if (null !== $this->value) {
+            $this->value = $encode->convert($this->value);
+        }
     }
 }

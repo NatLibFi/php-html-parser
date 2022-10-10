@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class SeekerTest extends TestCase
 {
-    public function testSeekReturnEmptyArray()
+    public function testSeekReturnEmptyArray(): void
     {
         $ruleDTO = RuleDTO::makeFromPrimitives(
             'tag',

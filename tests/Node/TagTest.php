@@ -7,14 +7,14 @@ use PHPUnit\Framework\TestCase;
 
 class NodeTagTest extends TestCase
 {
-    public function testSelfClosing()
+    public function testSelfClosing(): void
     {
         $tag = new Tag('a');
         $tag->selfClosing();
         $this->assertTrue($tag->isSelfClosing());
     }
 
-    public function testSetAttributes()
+    public function testSetAttributes(): void
     {
         $attr = [
             'href' => [
@@ -28,18 +28,16 @@ class NodeTagTest extends TestCase
         $this->assertEquals('http://google.com', $tag->getAttribute('href')->getValue());
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\Tag\AttributeNotFoundException
-     */
-    public function testRemoveAttribute()
+    public function testRemoveAttribute(): void
     {
         $tag = new Tag('a');
         $tag->setAttribute('href', 'http://google.com');
         $tag->removeAttribute('href');
+        $this->expectException(\PHPHtmlParser\Exceptions\Tag\AttributeNotFoundException::class);
         $tag->getAttribute('href');
     }
 
-    public function testRemoveAllAttributes()
+    public function testRemoveAllAttributes(): void
     {
         $tag = new Tag('a');
         $tag->setAttribute('href', 'http://google.com');
@@ -48,14 +46,14 @@ class NodeTagTest extends TestCase
         $this->assertEquals(0, \count($tag->getAttributes()));
     }
 
-    public function testSetAttributeNoArray()
+    public function testSetAttributeNoArray(): void
     {
         $tag = new Tag('a');
         $tag->setAttribute('href', 'http://google.com');
         $this->assertEquals('http://google.com', $tag->getAttribute('href')->getValue());
     }
 
-    public function testSetAttributesNoDoubleArray()
+    public function testSetAttributesNoDoubleArray(): void
     {
         $attr = [
             'href'  => 'http://google.com',
@@ -67,7 +65,7 @@ class NodeTagTest extends TestCase
         $this->assertEquals('funtimes', $tag->getAttribute('class')->getValue());
     }
 
-    public function testUpdateAttributes()
+    public function testUpdateAttributes(): void
     {
         $tag = new Tag('a');
         $tag->setAttributes([
@@ -94,13 +92,13 @@ class NodeTagTest extends TestCase
         $this->assertEquals('https://www.google.com', $tag->getAttribute('href')->getValue());
     }
 
-    public function testNoise()
+    public function testNoise(): void
     {
         $tag = new Tag('a');
         $this->assertTrue($tag->noise('noise') instanceof Tag);
     }
 
-    public function testGetAttributeMagic()
+    public function testGetAttributeMagic(): void
     {
         $attr = [
             'href' => [
@@ -114,14 +112,14 @@ class NodeTagTest extends TestCase
         $this->assertEquals('http://google.com', $tag->getAttribute('href')->getValue());
     }
 
-    public function testSetAttributeMagic()
+    public function testSetAttributeMagic(): void
     {
         $tag = new Tag('a');
         $tag->setAttribute('href', 'http://google.com');
         $this->assertEquals('http://google.com', $tag->getAttribute('href')->getValue());
     }
 
-    public function testMakeOpeningTag()
+    public function testMakeOpeningTag(): void
     {
         $attr = [
             'href' => [
@@ -135,7 +133,7 @@ class NodeTagTest extends TestCase
         $this->assertEquals('<a href="http://google.com">', $tag->makeOpeningTag());
     }
 
-    public function testMakeOpeningTagEmptyAttr()
+    public function testMakeOpeningTagEmptyAttr(): void
     {
         $attr = [
             'href' => [
@@ -150,7 +148,7 @@ class NodeTagTest extends TestCase
         $this->assertEquals('<a href="http://google.com" selected>', $tag->makeOpeningTag());
     }
 
-    public function testMakeOpeningTagSelfClosing()
+    public function testMakeOpeningTagSelfClosing(): void
     {
         $attr = [
             'class' => [
@@ -165,30 +163,30 @@ class NodeTagTest extends TestCase
         $this->assertEquals('<div class="clear-fix" />', $tag->makeOpeningTag());
     }
 
-    public function testMakeClosingTag()
+    public function testMakeClosingTag(): void
     {
         $tag = new Tag('a');
         $this->assertEquals('</a>', $tag->makeClosingTag());
     }
 
-    public function testMakeClosingTagSelfClosing()
+    public function testMakeClosingTagSelfClosing(): void
     {
         $tag = new Tag('div');
         $tag->selfClosing();
         $this->assertEmpty($tag->makeClosingTag());
     }
 
-    public function testSetTagAttribute()
+    public function testSetTagAttribute(): void
     {
         $tag = new Tag('div');
         $tag->setStyleAttributeValue('display', 'none');
         $this->assertEquals('display:none;', $tag->getAttribute('style')->getValue());
     }
 
-    public function testGetStyleAttributesArray()
+    public function testGetStyleAttributesArray(): void
     {
         $tag = new Tag('div');
         $tag->setStyleAttributeValue('display', 'none');
-        $this->assertInternalType('array', $tag->getStyleAttributeArray());
+        $this->assertIsArray($tag->getStyleAttributeArray());
     }
 }

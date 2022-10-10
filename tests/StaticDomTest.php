@@ -7,17 +7,17 @@ use PHPUnit\Framework\TestCase;
 
 class StaticDomTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         StaticDom::mount();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         StaticDom::unload();
     }
 
-    public function testMountWithDom()
+    public function testMountWithDom(): void
     {
         $dom = new PHPHtmlParser\Dom();
         StaticDom::unload();
@@ -25,40 +25,38 @@ class StaticDomTest extends TestCase
         $this->assertTrue($status);
     }
 
-    public function testloadStr()
+    public function testloadStr(): void
     {
         $dom = Dom::loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a><br /> :)</p></div>');
         $div = $dom->find('div', 0);
         $this->assertEquals('<div class="all"><p>Hey bro, <a href="google.com">click here</a><br /> :)</p></div>', $div->outerHtml);
     }
 
-    public function testLoadWithFile()
+    public function testLoadWithFile(): void
     {
         $dom = Dom::loadFromFile('tests/data/files/small.html');
         $this->assertEquals('VonBurgermeister', $dom->find('.post-user font', 0)->text);
     }
 
-    public function testLoadFromFile()
+    public function testLoadFromFile(): void
     {
         $dom = Dom::loadFromFile('tests/data/files/small.html');
         $this->assertEquals('VonBurgermeister', $dom->find('.post-user font', 0)->text);
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\NotLoadedException
-     */
-    public function testFindNoloadStr()
+    public function testFindNoloadStr(): void
     {
+        $this->expectException(\PHPHtmlParser\Exceptions\NotLoadedException::class);
         Dom::find('.post-user font', 0);
     }
 
-    public function testFindI()
+    public function testFindI(): void
     {
         Dom::loadFromFile('tests/data/files/big.html');
         $this->assertEquals('В кустах блестит металл<br /> И искрится ток<br /> Человечеству конец', Dom::find('i')[1]->innerHtml);
     }
 
-    public function testLoadFromUrl()
+    public function testLoadFromUrl(): void
     {
         $streamMock = Mockery::mock(\Psr\Http\Message\StreamInterface::class);
         $streamMock->shouldReceive('getContents')

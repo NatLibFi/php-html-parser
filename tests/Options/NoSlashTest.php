@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class NoSlashTest extends TestCase
 {
-    public function testLoadClosingTagOnSelfClosingNoSlash()
+    public function testLoadClosingTagOnSelfClosingNoSlash(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->addNoSlashTag('br'));
@@ -17,7 +17,7 @@ class NoSlashTest extends TestCase
         $this->assertEquals('<br><p>Hey bro, <a href="google.com" data-quote="\"">click here</a></p>', $dom->find('div', 0)->innerHtml);
     }
 
-    public function testLoadClosingTagOnSelfClosingRemoveNoSlash()
+    public function testLoadClosingTagOnSelfClosingRemoveNoSlash(): void
     {
         $dom = new Dom();
         $dom->setOptions(
@@ -30,7 +30,7 @@ class NoSlashTest extends TestCase
         $this->assertEquals('<br /><p>Hey bro, <a href="google.com" data-quote="\"">click here</a></p>', $dom->find('div', 0)->innerHtml);
     }
 
-    public function testLoadClosingTagOnSelfClosingClearNoSlash()
+    public function testLoadClosingTagOnSelfClosingClearNoSlash(): void
     {
         $dom = new Dom();
         $dom->setOptions(

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class PreserveLineBreaks extends TestCase
 {
-    public function testPreserveLineBreakTrue()
+    public function testPreserveLineBreakTrue(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setPreserveLineBreaks(true));
@@ -19,7 +19,7 @@ class PreserveLineBreaks extends TestCase
         $this->assertEquals("<div class=\"stream-container \">\n<div class=\"stream-item js-new-items-bar-container\"> </div> <div class=\"stream\"></div></div>", (string) $dom);
     }
 
-    public function testPreserveLineBreakBeforeClosingTag()
+    public function testPreserveLineBreakBeforeClosingTag(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setPreserveLineBreaks(true));

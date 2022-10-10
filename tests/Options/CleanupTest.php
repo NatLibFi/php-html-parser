@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class CleanupTest extends TestCase
 {
-    public function testCleanupInputTrue()
+    public function testCleanupInputTrue(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setCleanupInput(true));
@@ -17,7 +17,7 @@ class CleanupTest extends TestCase
         $this->assertEquals(0, \count($dom->find('script')));
     }
 
-    public function testCleanupInputFalse()
+    public function testCleanupInputFalse(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setCleanupInput(false));
@@ -26,7 +26,7 @@ class CleanupTest extends TestCase
         $this->assertEquals(22, \count($dom->find('script')));
     }
 
-    public function testRemoveStylesTrue()
+    public function testRemoveStylesTrue(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveStyles(true));
@@ -34,7 +34,7 @@ class CleanupTest extends TestCase
         $this->assertEquals(0, \count($dom->find('style')));
     }
 
-    public function testRemoveStylesFalse()
+    public function testRemoveStylesFalse(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveStyles(false));
@@ -44,7 +44,7 @@ class CleanupTest extends TestCase
             $dom->find('style')->getAttribute('type'));
     }
 
-    public function testRemoveScriptsTrue()
+    public function testRemoveScriptsTrue(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveScripts(true));
@@ -52,7 +52,7 @@ class CleanupTest extends TestCase
         $this->assertEquals(0, \count($dom->find('script')));
     }
 
-    public function testRemoveScriptsFalse()
+    public function testRemoveScriptsFalse(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveScripts(false));
@@ -62,7 +62,7 @@ class CleanupTest extends TestCase
             $dom->find('script')->getAttribute('type'));
     }
 
-    public function testSmartyScripts()
+    public function testSmartyScripts(): void
     {
         $dom = new Dom();
         $dom->loadStr('
@@ -71,7 +71,7 @@ class CleanupTest extends TestCase
         $this->assertEquals(' aa= ', $dom->innerHtml);
     }
 
-    public function testSmartyScriptsDisabled()
+    public function testSmartyScriptsDisabled(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveSmartyScripts(false));

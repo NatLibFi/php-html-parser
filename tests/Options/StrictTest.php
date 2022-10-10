@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class StrictTest extends TestCase
 {
-    public function testConfigStrict()
+    public function testConfigStrict(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setStrict(true));
@@ -17,7 +17,7 @@ class StrictTest extends TestCase
         $this->assertEquals(' ', $dom->getElementById('hey')->nextSibling()->text);
     }
 
-    public function testConfigStrictMissingSelfClosing()
+    public function testConfigStrictMissingSelfClosing(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setStrict(true));
@@ -31,7 +31,7 @@ class StrictTest extends TestCase
         }
     }
 
-    public function testConfigStrictMissingAttribute()
+    public function testConfigStrictMissingAttribute(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setStrict(true));
@@ -45,7 +45,7 @@ class StrictTest extends TestCase
         }
     }
 
-    public function testConfigStrictBRTag()
+    public function testConfigStrictBRTag(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setStrict(true));

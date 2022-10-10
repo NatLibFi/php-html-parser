@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class NodeHtmlTest extends TestCase
 {
-    public function testInnerHtml()
+    public function testInnerHtml(): void
     {
         $div = new Tag('div');
         $div->setAttributes([
@@ -41,7 +41,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals("<a href='http://google.com'>link</a><br />", $parent->innerHtml());
     }
 
-    public function testInnerHtmlTwice()
+    public function testInnerHtmlTwice(): void
     {
         $div = new Tag('div');
         $div->setAttributes([
@@ -66,10 +66,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals($inner, $parent->innerHtml());
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\UnknownChildTypeException
-     */
-    public function testInnerHtmlUnkownChild()
+    public function testInnerHtmlUnkownChild(): void
     {
         $div = new Tag('div');
         $div->setAttributes([
@@ -95,11 +92,11 @@ class NodeHtmlTest extends TestCase
         $parent->addChild($childbr);
         $childa->addChild(new TextNode('link'));
 
-        $inner = $parent->innerHtml();
-        $this->assertEquals($inner, $parent->innerHtml());
+        $this->expectException(\PHPHtmlParser\Exceptions\UnknownChildTypeException::class);
+        $parent->innerHtml();
     }
 
-    public function testInnerHtmlMagic()
+    public function testInnerHtmlMagic(): void
     {
         $parent = new HtmlNode('div');
         $parent->tag->setAttributes([
@@ -125,7 +122,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals("<a href='http://google.com'>link</a><br />", $parent->innerHtml);
     }
 
-    public function testOuterHtml()
+    public function testOuterHtml(): void
     {
         $div = new Tag('div');
         $div->setAttributes([
@@ -154,7 +151,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('<div class="all"><a href=\'http://google.com\'>link</a><br /></div>', $parent->outerHtml());
     }
 
-    public function testOuterHtmlTwice()
+    public function testOuterHtmlTwice(): void
     {
         $div = new Tag('div');
         $div->setAttributes([
@@ -184,7 +181,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals($outer, $parent->outerHtml());
     }
 
-    public function testOuterHtmlEmpty()
+    public function testOuterHtmlEmpty(): void
     {
         $a = new Tag('a');
         $a->setAttributes([
@@ -198,7 +195,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals("<a href='http://google.com'></a>", $node->OuterHtml());
     }
 
-    public function testOuterHtmlMagic()
+    public function testOuterHtmlMagic(): void
     {
         $parent = new HtmlNode('div');
         $parent->getTag()->setAttributes([
@@ -224,7 +221,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('<div class="all"><a href=\'http://google.com\'>link</a><br /></div>', $parent->outerHtml);
     }
 
-    public function testOuterHtmlNoValueAttribute()
+    public function testOuterHtmlNoValueAttribute(): void
     {
         $parent = new HtmlNode('div');
         $parent->setAttribute('class', 'all');
@@ -241,7 +238,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('<div class="all"><a href=\'http://google.com\' ui-view>link</a><br /></div>', $parent->outerHtml);
     }
 
-    public function testOuterHtmlWithChanges()
+    public function testOuterHtmlWithChanges(): void
     {
         $div = new Tag('div');
         $div->setAttributes([
@@ -274,7 +271,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('<a href="https://www.google.com">link</a>', $childa->outerHtml());
     }
 
-    public function testText()
+    public function testText(): void
     {
         $a = new Tag('a');
         $node = new HtmlNode($a);
@@ -283,7 +280,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('link', $node->text());
     }
 
-    public function testTextTwice()
+    public function testTextTwice(): void
     {
         $a = new Tag('a');
         $node = new HtmlNode($a);
@@ -293,7 +290,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals($text, $node->text());
     }
 
-    public function testTextNone()
+    public function testTextNone(): void
     {
         $a = new Tag('a');
         $node = new HtmlNode($a);
@@ -301,7 +298,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEmpty($node->text());
     }
 
-    public function testTextMagic()
+    public function testTextMagic(): void
     {
         $node = new HtmlNode('a');
         $node->addChild(new TextNode('link'));
@@ -309,7 +306,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('link', $node->text);
     }
 
-    public function testTextLookInChildren()
+    public function testTextLookInChildren(): void
     {
         $p = new HtmlNode('p');
         $a = new HtmlNode('a');
@@ -323,7 +320,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('Please click me!', $node->text(true));
     }
 
-    public function testInnerText()
+    public function testInnerText(): void
     {
         $node = new HtmlNode('div');
         $node->addChild(new TextNode('123 '));
@@ -337,7 +334,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals($node->innerText, '123 456789 101112');
     }
 
-    public function testTextLookInChildrenAndNoChildren()
+    public function testTextLookInChildrenAndNoChildren(): void
     {
         $p = new HtmlNode('p');
         $a = new HtmlNode('a');
@@ -352,7 +349,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('Please click me!', $p->text(true));
     }
 
-    public function testGetAttribute()
+    public function testGetAttribute(): void
     {
         $node = new HtmlNode('a');
         $node->getTag()->setAttributes([
@@ -369,7 +366,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('outerlink rounded', $node->getAttribute('class'));
     }
 
-    public function testGetAttributeMagic()
+    public function testGetAttributeMagic(): void
     {
         $node = new HtmlNode('a');
         $node->getTag()->setAttributes([
@@ -386,7 +383,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('http://google.com', $node->href);
     }
 
-    public function testGetAttributes()
+    public function testGetAttributes(): void
     {
         $node = new HtmlNode('a');
         $node->getTag()->setAttributes([
@@ -403,14 +400,14 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('outerlink rounded', $node->getAttributes()['class']);
     }
 
-    public function testSetAttribute()
+    public function testSetAttribute(): void
     {
         $node = new HtmlNode('a');
         $node->setAttribute('class', 'foo');
         $this->assertEquals('foo', $node->getAttribute('class'));
     }
 
-    public function testRemoveAttribute()
+    public function testRemoveAttribute(): void
     {
         $node = new HtmlNode('a');
         $node->setAttribute('class', 'foo');
@@ -418,7 +415,7 @@ class NodeHtmlTest extends TestCase
         $this->assertnull($node->getAttribute('class'));
     }
 
-    public function testRemoveAllAttributes()
+    public function testRemoveAllAttributes(): void
     {
         $node = new HtmlNode('a');
         $node->setAttribute('class', 'foo');
@@ -427,7 +424,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals(0, \count($node->getAttributes()));
     }
 
-    public function testSetTag()
+    public function testSetTag(): void
     {
         $node = new HtmlNode('div');
         $this->assertEquals('<div></div>', $node->outerHtml());
@@ -439,7 +436,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('<span></span>', $node->outerHtml());
     }
 
-    public function testCountable()
+    public function testCountable(): void
     {
         $div = new Tag('div');
         $div->setAttributes([
@@ -468,7 +465,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals(\count($parent->getChildren()), \count($parent));
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $div = new Tag('div');
         $div->setAttributes([
@@ -501,17 +498,15 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals(2, $children);
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\ParentNotFoundException
-     */
-    public function testAncestorByTagFailure()
+    public function testAncestorByTagFailure(): void
     {
         $a = new Tag('a');
         $node = new HtmlNode($a);
+        $this->expectException(\PHPHtmlParser\Exceptions\ParentNotFoundException::class);
         $node->ancestorByTag('div');
     }
 
-    public function testReplaceNode()
+    public function testReplaceNode(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a><br /> :)</p></div>');
@@ -521,7 +516,7 @@ class NodeHtmlTest extends TestCase
         $this->assertEquals('<div class="all"><h1></h1></div>', (string) $dom);
     }
 
-    public function testTextNodeFirstChild()
+    public function testTextNodeFirstChild(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a><br /> :)</p></div>');

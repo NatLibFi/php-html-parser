@@ -10,52 +10,52 @@ use stringEncode\Encode;
 
 class NodeTextTest extends TestCase
 {
-    public function testText()
+    public function testText(): void
     {
         $node = new TextNode('foo bar');
         $this->assertEquals('foo bar', $node->text());
     }
 
-    public function testGetTag()
+    public function testGetTag(): void
     {
         $node = new TextNode('foo bar');
         $this->assertEquals('text', $node->getTag()->name());
     }
 
-    public function testAncestorByTag()
+    public function testAncestorByTag(): void
     {
         $node = new TextNode('foo bar');
         $text = $node->ancestorByTag('text');
         $this->assertEquals($node, $text);
     }
 
-    public function testPreserveEntity()
+    public function testPreserveEntity(): void
     {
         $node = new TextNode('&#x69;');
         $text = $node->outerhtml;
         $this->assertEquals('&#x69;', $text);
     }
 
-    public function testIsTextNode()
+    public function testIsTextNode(): void
     {
         $node = new TextNode('text');
         $this->assertEquals(true, $node->isTextNode());
     }
 
-    public function testTextInTextNode()
+    public function testTextInTextNode(): void
     {
         $node = new TextNode('foo bar');
         $this->assertEquals('foo bar', $node->outerHtml());
     }
 
-    public function testSetTextToTextNode()
+    public function testSetTextToTextNode(): void
     {
         $node = new TextNode('');
         $node->setText('foo bar');
         $this->assertEquals('foo bar', $node->innerHtml());
     }
 
-    public function testSetText()
+    public function testSetText(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a><br /> :)</p></div>');
@@ -64,7 +64,7 @@ class NodeTextTest extends TestCase
         $this->assertEquals('<div class="all"><p>Hey bro, <a href="google.com">biz baz</a><br /> :)</p></div>', (string) $dom);
     }
 
-    public function testSetTextEncoded()
+    public function testSetTextEncoded(): void
     {
         $encode = new Encode();
         $encode->from('UTF-8');

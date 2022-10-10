@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase
 {
-    public function testEach()
+    public function testEach(): void
     {
         $root = new HtmlNode(new Tag('root'));
         $parent = new HtmlNode(new Tag('div'));
@@ -32,23 +32,21 @@ class CollectionTest extends TestCase
         $this->assertEquals(2, $count);
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\EmptyCollectionException
-     */
-    public function testCallNoNodes()
+    public function testCallNoNodes(): void
     {
         $collection = new Collection();
+        $this->expectException(\PHPHtmlParser\Exceptions\EmptyCollectionException::class);
         $collection->innerHtml();
     }
 
-    public function testNoNodeString()
+    public function testNoNodeString(): void
     {
         $collection = new Collection();
         $string = (string) $collection;
         $this->assertEmpty($string);
     }
 
-    public function testCallMagic()
+    public function testCallMagic(): void
     {
         $root = new HtmlNode(new Tag('root'));
         $parent = new HtmlNode(new Tag('div'));
@@ -64,7 +62,7 @@ class CollectionTest extends TestCase
         $this->assertEquals($child3->id(), $selector->find($root)->id());
     }
 
-    public function testGetMagic()
+    public function testGetMagic(): void
     {
         $root = new HtmlNode(new Tag('root'));
         $parent = new HtmlNode(new Tag('div'));
@@ -80,16 +78,14 @@ class CollectionTest extends TestCase
         $this->assertEquals($child3->innerHtml, $selector->find($root)->innerHtml);
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\EmptyCollectionException
-     */
-    public function testGetNoNodes()
+    public function testGetNoNodes(): void
     {
         $collection = new Collection();
+        $this->expectException(\PHPHtmlParser\Exceptions\EmptyCollectionException::class);
         $collection->innerHtml;
     }
 
-    public function testToStringMagic()
+    public function testToStringMagic(): void
     {
         $root = new HtmlNode(new Tag('root'));
         $parent = new HtmlNode(new Tag('div'));
@@ -105,7 +101,7 @@ class CollectionTest extends TestCase
         $this->assertEquals((string) $child3, (string) $selector->find($root));
     }
 
-    public function testToArray()
+    public function testToArray(): void
     {
         $root = new HtmlNode(new Tag('root'));
         $parent = new HtmlNode(new Tag('div'));
@@ -124,21 +120,21 @@ class CollectionTest extends TestCase
         $this->assertEquals($child3->id(), $lastA->id());
     }
 
-    public function testGetIterator()
+    public function testGetIterator(): void
     {
         $collection = new Collection();
         $iterator = $collection->getIterator();
         $this->assertTrue($iterator instanceof \ArrayIterator);
     }
 
-    public function testOffsetSet()
+    public function testOffsetSet(): void
     {
         $collection = new Collection();
         $collection->offsetSet(7, true);
         $this->assertTrue($collection->offsetGet(7));
     }
 
-    public function testOffsetUnset()
+    public function testOffsetUnset(): void
     {
         $collection = new Collection();
         $collection->offsetSet(7, true);

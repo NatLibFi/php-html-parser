@@ -13,7 +13,7 @@ class CommentTest extends TestCase
      */
     private $dom;
 
-    public function setUp()
+    public function setUp(): void
     {
         $dom = new Dom();
         $options = new Options();
@@ -22,12 +22,12 @@ class CommentTest extends TestCase
         $this->dom = $dom;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Mockery::close();
     }
 
-    public function testLoadCommentInnerHtml()
+    public function testLoadCommentInnerHtml(): void
     {
         $this->assertEquals('<!-- test comment with number 2 -->', $this->dom->innerHtml);
     }

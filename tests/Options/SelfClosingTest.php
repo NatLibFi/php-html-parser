@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class SelfClosingTest extends TestCase
 {
-    public function testLoadClosingTagAddSelfClosingTag()
+    public function testLoadClosingTagAddSelfClosingTag(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->addSelfClosingTag('mytag'));
@@ -16,7 +16,7 @@ class SelfClosingTest extends TestCase
         $this->assertEquals('<mytag /><p>Hey bro, <a href="google.com" data-quote="\"">click here</a></p>', $dom->find('div', 0)->innerHtml);
     }
 
-    public function testLoadClosingTagAddSelfClosingTagArray()
+    public function testLoadClosingTagAddSelfClosingTagArray(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->addSelfClosingTags([
@@ -27,7 +27,7 @@ class SelfClosingTest extends TestCase
         $this->assertEquals('<mytag /><p>Hey bro, <a href="google.com" data-quote="\"">click here</a><othertag /></p>', $dom->find('div', 0)->innerHtml);
     }
 
-    public function testLoadClosingTagRemoveSelfClosingTag()
+    public function testLoadClosingTagRemoveSelfClosingTag(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->removeSelfClosingTag('br'));
@@ -35,7 +35,7 @@ class SelfClosingTest extends TestCase
         $this->assertEquals('<br><p>Hey bro, <a href="google.com" data-quote="\"">click here</a></p></br>', $dom->find('div', 0)->innerHtml);
     }
 
-    public function testLoadClosingTagClearSelfClosingTag()
+    public function testLoadClosingTagClearSelfClosingTag(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->clearSelfClosingTags());

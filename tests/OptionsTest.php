@@ -7,14 +7,14 @@ use PHPUnit\Framework\TestCase;
 
 class OptionsTest extends TestCase
 {
-    public function testDefaultWhitespaceTextNode()
+    public function testDefaultWhitespaceTextNode(): void
     {
         $options = new Options();
 
         $this->assertTrue($options->isWhitespaceTextNode());
     }
 
-    public function testSettingOption()
+    public function testSettingOption(): void
     {
         $options = new Options();
         $options->setStrict(true);
@@ -22,7 +22,7 @@ class OptionsTest extends TestCase
         $this->assertTrue($options->isStrict());
     }
 
-    public function testOverwritingOption()
+    public function testOverwritingOption(): void
     {
         $options = new Options();
         $options->setStrict(false);
@@ -35,7 +35,7 @@ class OptionsTest extends TestCase
         $this->assertFalse($options->isWhitespaceTextNode());
     }
 
-    public function testSetters()
+    public function testSetters(): void
     {
         $options = new Options();
 

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class WhitespaceTextNodeTest extends TestCase
 {
-    public function testConfigGlobalNoWhitespaceTextNode()
+    public function testConfigGlobalNoWhitespaceTextNode(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setWhitespaceTextNode(false));
@@ -16,7 +16,7 @@ class WhitespaceTextNodeTest extends TestCase
         $this->assertEquals('Ya you!', $dom->getElementById('hey')->nextSibling()->text);
     }
 
-    public function testConfigLocalOverride()
+    public function testConfigLocalOverride(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setWhitespaceTextNode(false));

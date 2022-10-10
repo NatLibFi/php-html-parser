@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class DomTest extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         Mockery::close();
     }
@@ -16,7 +16,7 @@ class DomTest extends TestCase
     /**
      * <![CDATA[ should not be modified when cleanupInput is set to false.
      */
-    public function testParsingCData()
+    public function testParsingCData(): void
     {
         $html = "<script type=\"text/javascript\">/* <![CDATA[ */var et_core_api_spam_recaptcha = '';/* ]]> */</script>";
         $dom = new Dom();
@@ -25,7 +25,7 @@ class DomTest extends TestCase
         $this->assertSame($html, $dom->root->outerHtml());
     }
 
-    public function testLoadSelfclosingAttr()
+    public function testLoadSelfclosingAttr(): void
     {
         $dom = new Dom();
         $dom->loadStr("<div class='all'><br  foo  bar  />baz</div>");
@@ -33,7 +33,7 @@ class DomTest extends TestCase
         $this->assertEquals('<br foo bar />', $br->outerHtml);
     }
 
-    public function testLoadSelfclosingAttrToString()
+    public function testLoadSelfclosingAttrToString(): void
     {
         $dom = new Dom();
         $dom->loadStr("<div class='all'><br  foo  bar  />baz</div>");
@@ -41,77 +41,77 @@ class DomTest extends TestCase
         $this->assertEquals('<br foo bar />', (string) $br);
     }
 
-    public function testLoadNoOpeningTag()
+    public function testLoadNoOpeningTag(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div class="all"><font color="red"><strong>PR Manager</strong></font></b><div class="content">content</div></div>');
         $this->assertEquals('content', $dom->find('.content', 0)->text);
     }
 
-    public function testLoadNoValueAttribute()
+    public function testLoadNoValueAttribute(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div class="content"><div class="grid-container" ui-view>Main content here</div></div>');
         $this->assertEquals('<div class="content"><div class="grid-container" ui-view>Main content here</div></div>', $dom->innerHtml);
     }
 
-    public function testLoadBackslashAttributeValue()
+    public function testLoadBackslashAttributeValue(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div class="content"><div id="\" class="grid-container" ui-view>Main content here</div></div>');
         $this->assertEquals('<div class="content"><div id="\" class="grid-container" ui-view>Main content here</div></div>', $dom->innerHtml);
     }
 
-    public function testLoadNoValueAttributeBefore()
+    public function testLoadNoValueAttributeBefore(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div class="content"><div ui-view class="grid-container">Main content here</div></div>');
         $this->assertEquals('<div class="content"><div ui-view class="grid-container">Main content here</div></div>', $dom->innerHtml);
     }
 
-    public function testLoadUpperCase()
+    public function testLoadUpperCase(): void
     {
         $dom = new Dom();
         $dom->loadStr('<DIV CLASS="ALL"><BR><P>hEY BRO, <A HREF="GOOGLE.COM" DATA-QUOTE="\"">CLICK HERE</A></BR></DIV>');
         $this->assertEquals('<br /><p>hEY BRO, <a href="GOOGLE.COM" data-quote="\"">CLICK HERE</a></p>', $dom->find('div', 0)->innerHtml);
     }
 
-    public function testLoadWithFile()
+    public function testLoadWithFile(): void
     {
         $dom = new Dom();
         $dom->loadFromFile('tests/data/files/small.html');
         $this->assertEquals('VonBurgermeister', $dom->find('.post-user font', 0)->text);
     }
 
-    public function testLoadFromFile()
+    public function testLoadFromFile(): void
     {
         $dom = new Dom();
         $dom->loadFromFile('tests/data/files/small.html');
         $this->assertEquals('VonBurgermeister', $dom->find('.post-user font', 0)->text);
     }
 
-    public function testLoadFromFileFind()
+    public function testLoadFromFileFind(): void
     {
         $dom = new Dom();
         $dom->loadFromFile('tests/data/files/small.html');
         $this->assertEquals('VonBurgermeister', $dom->find('.post-row div .post-user font', 0)->text);
     }
 
-    public function testLoadFromFileNotFound()
+    public function testLoadFromFileNotFound(): void
     {
         $dom = new Dom();
         $this->expectException(\PHPHtmlParser\Exceptions\LogicalException::class);
         $dom->loadFromFile('tests/data/files/unkowne.html');
     }
 
-    public function testLoadUtf8()
+    public function testLoadUtf8(): void
     {
         $dom = new Dom();
         $dom->loadStr('<p>Dzień</p>');
         $this->assertEquals('Dzień', $dom->find('p', 0)->text);
     }
 
-    public function testLoadFileWhitespace()
+    public function testLoadFileWhitespace(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setCleanupInput(false));
@@ -120,14 +120,14 @@ class DomTest extends TestCase
         $this->assertEquals('<span><span class="class"></span></span>', (string) $dom);
     }
 
-    public function testLoadFileBig()
+    public function testLoadFileBig(): void
     {
         $dom = new Dom();
         $dom->loadFromFile('tests/data/files/big.html');
         $this->assertEquals(20, \count($dom->find('.content-border')));
     }
 
-    public function testLoadFileBigTwice()
+    public function testLoadFileBigTwice(): void
     {
         $dom = new Dom();
         $dom->loadFromFile('tests/data/files/big.html');
@@ -135,7 +135,7 @@ class DomTest extends TestCase
         $this->assertEquals(' <p>Журчанье воды<br /> Черно-белые тени<br /> Вновь на фонтане</p> ', $post->find('.post-message', 0)->innerHtml);
     }
 
-    public function testLoadFileBigTwicePreserveOption()
+    public function testLoadFileBigTwicePreserveOption(): void
     {
         $dom = new Dom();
         $dom->loadFromFile('tests/data/files/big.html',
@@ -147,7 +147,7 @@ class DomTest extends TestCase
         );
     }
 
-    public function testLoadFromUrl()
+    public function testLoadFromUrl(): void
     {
         $streamMock = Mockery::mock(\Psr\Http\Message\StreamInterface::class);
         $streamMock->shouldReceive('getContents')
@@ -167,77 +167,77 @@ class DomTest extends TestCase
         $this->assertEquals('VonBurgermeister', $dom->find('.post-row div .post-user font', 0)->text);
     }
 
-    public function testScriptCleanerScriptTag()
+    public function testScriptCleanerScriptTag(): void
     {
         $dom = new Dom();
         $dom->loadStr('
         <p>.....</p>
         <script>
-        Some code ... 
-        document.write("<script src=\'some script\'><\/script>") 
-        Some code ... 
+        Some code ...
+        document.write("<script src=\'some script\'><\/script>")
+        Some code ...
         </script>
         <p>....</p>');
         $this->assertEquals('....', $dom->getElementsByTag('p')[1]->innerHtml);
     }
 
-    public function testClosingSpan()
+    public function testClosingSpan(): void
     {
         $dom = new Dom();
         $dom->loadStr("<div class='foo'></span>sometext</div>");
         $this->assertEquals('sometext', $dom->getElementsByTag('div')[0]->innerHtml);
     }
 
-    public function testMultipleDoubleQuotes()
+    public function testMultipleDoubleQuotes(): void
     {
         $dom = new Dom();
         $dom->loadStr('<a title="This is a "test" of double quotes" href="http://www.example.com">Hello</a>');
         $this->assertEquals('This is a "test" of double quotes', $dom->getElementsByTag('a')[0]->title);
     }
 
-    public function testMultipleSingleQuotes()
+    public function testMultipleSingleQuotes(): void
     {
         $dom = new Dom();
         $dom->loadStr("<a title='Ain't this the best' href=\"http://www.example.com\">Hello</a>");
         $this->assertEquals("Ain't this the best", $dom->getElementsByTag('a')[0]->title);
     }
 
-    public function testBeforeClosingTag()
+    public function testBeforeClosingTag(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div class="stream-container "  > <div class="stream-item js-new-items-bar-container"> </div> <div class="stream">');
         $this->assertEquals('<div class="stream-container "> <div class="stream-item js-new-items-bar-container"> </div> <div class="stream"></div></div>', (string) $dom);
     }
 
-    public function testCodeTag()
+    public function testCodeTag(): void
     {
         $dom = new Dom();
         $dom->loadStr('<strong>hello</strong><code class="language-php">$foo = "bar";</code>');
         $this->assertEquals('<strong>hello</strong><code class="language-php">$foo = "bar";</code>', (string) $dom);
     }
 
-    public function testCountChildren()
+    public function testCountChildren(): void
     {
         $dom = new Dom();
         $dom->loadStr('<strong>hello</strong><code class="language-php">$foo = "bar";</code>');
         $this->assertEquals(2, $dom->countChildren());
     }
 
-    public function testGetChildrenArray()
+    public function testGetChildrenArray(): void
     {
         $dom = new Dom();
         $dom->loadStr('<strong>hello</strong><code class="language-php">$foo = "bar";</code>');
-        $this->assertInternalType('array', $dom->getChildren());
+        $this->assertIsArray($dom->getChildren());
     }
 
-    public function testHasChildren()
+    public function testHasChildren(): void
     {
         $dom = new Dom();
         $dom->loadStr('<strong>hello</strong><code class="language-php">$foo = "bar";</code>');
         $this->assertTrue($dom->hasChildren());
     }
 
-    public function testWhitespaceInText()
+    public function testWhitespaceInText(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveDoubleSpace(false));
@@ -245,7 +245,7 @@ class DomTest extends TestCase
         $this->assertEquals('<pre>    Hello world</pre>', (string) $dom);
     }
 
-    public function testGetComplexAttribute()
+    public function testGetComplexAttribute(): void
     {
         $dom = new Dom();
         $dom->loadStr('<a href="?search=Fort+William&session_type=face&distance=100&uqs=119846&page=4" class="pagination-next">Next <span class="chevron">&gt;</span></a>');
@@ -253,7 +253,7 @@ class DomTest extends TestCase
         $this->assertEquals('?search=Fort+William&session_type=face&distance=100&uqs=119846&page=4', $href);
     }
 
-    public function testGetComplexAttributeHtmlSpecialCharsDecode()
+    public function testGetComplexAttributeHtmlSpecialCharsDecode(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setHtmlSpecialCharsDecode(true));
@@ -264,7 +264,7 @@ class DomTest extends TestCase
         $this->assertEquals('?search=Fort+William&session_type=face&distance=100&uqs=119846&page=4', $href);
     }
 
-    public function testGetChildrenNoChildren()
+    public function testGetChildrenNoChildren(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div>Test <img src="test.jpg"></div>');
@@ -274,7 +274,7 @@ class DomTest extends TestCase
         $this->assertTrue(\count($children) === 0);
     }
 
-    public function testInfiniteLoopNotHappening()
+    public function testInfiniteLoopNotHappening(): void
     {
         $dom = new Dom();
         $dom->loadStr('<html>
@@ -290,7 +290,7 @@ class DomTest extends TestCase
         $this->assertEquals(4, \count($metaNodes));
     }
 
-    public function testFindOrder()
+    public function testFindOrder(): void
     {
         $str = '<p><img src="http://example.com/first.jpg"></p><img src="http://example.com/second.jpg">';
         $dom = new Dom();
@@ -300,7 +300,7 @@ class DomTest extends TestCase
         $this->assertEquals('<img src="http://example.com/first.jpg" />', (string) $images[0]);
     }
 
-    public function testCaseInSensitivity()
+    public function testCaseInSensitivity(): void
     {
         $str = "<FooBar Attribute='asdf'>blah</FooBar>";
         $dom = new Dom();
@@ -310,7 +310,7 @@ class DomTest extends TestCase
         $this->assertEquals('asdf', $FooBar->getAttribute('attribute'));
     }
 
-    public function testCaseSensitivity()
+    public function testCaseSensitivity(): void
     {
         $str = "<FooBar Attribute='asdf'>blah</FooBar>";
         $dom = new Dom();
@@ -320,7 +320,7 @@ class DomTest extends TestCase
         $this->assertEquals('asdf', $FooBar->Attribute);
     }
 
-    public function testEmptyAttribute()
+    public function testEmptyAttribute(): void
     {
         $str = '<ul class="summary"><li class></li>blah<li class="foo">what</li></ul>';
         $dom = new Dom();
@@ -330,7 +330,7 @@ class DomTest extends TestCase
         $this->assertEquals(1, \count($items));
     }
 
-    public function testInnerText()
+    public function testInnerText(): void
     {
         $html = <<<EOF
 <body class="" style="" data-gr-c-s-loaded="true">123<a>456789</a><span>101112</span></body>
@@ -340,7 +340,7 @@ EOF;
         $this->assertEquals($dom->innerText, '123456789101112');
     }
 
-    public function testMultipleSquareSelector()
+    public function testMultipleSquareSelector(): void
     {
         $dom = new Dom();
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
@@ -349,7 +349,7 @@ EOF;
         $this->assertEquals(1, \count($items));
     }
 
-    public function testNotSquareSelector()
+    public function testNotSquareSelector(): void
     {
         $dom = new Dom();
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
@@ -358,7 +358,7 @@ EOF;
         $this->assertEquals(1, \count($items));
     }
 
-    public function testStartSquareSelector()
+    public function testStartSquareSelector(): void
     {
         $dom = new Dom();
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
@@ -367,7 +367,7 @@ EOF;
         $this->assertEquals(1, \count($items));
     }
 
-    public function testEndSquareSelector()
+    public function testEndSquareSelector(): void
     {
         $dom = new Dom();
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
@@ -376,7 +376,7 @@ EOF;
         $this->assertEquals(1, \count($items));
     }
 
-    public function testStarSquareSelector()
+    public function testStarSquareSelector(): void
     {
         $dom = new Dom();
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
@@ -385,7 +385,7 @@ EOF;
         $this->assertEquals(1, \count($items));
     }
 
-    public function testStarFullRegexSquareSelector()
+    public function testStarFullRegexSquareSelector(): void
     {
         $dom = new Dom();
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
@@ -394,7 +394,7 @@ EOF;
         $this->assertEquals(1, \count($items));
     }
 
-    public function testFailedSquareSelector()
+    public function testFailedSquareSelector(): void
     {
         $dom = new Dom();
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
@@ -403,7 +403,7 @@ EOF;
         $this->assertEquals(1, \count($items));
     }
 
-    public function testLoadGetAttributeWithBackslash()
+    public function testLoadGetAttributeWithBackslash(): void
     {
         $dom = new Dom();
         $dom->loadStr('<div><a href="/test/"><img alt="\" src="/img/test.png" /><br /></a><a href="/demo/"><img alt="demo" src="/img/demo.png" /></a></div>');
@@ -411,7 +411,7 @@ EOF;
         $this->assertEquals('/img/test.png', $imgs->getAttribute('src'));
     }
 
-    public function test25ChildrenFound()
+    public function test25ChildrenFound(): void
     {
         $dom = new Dom();
         $dom->setOptions((new Options())->setWhitespaceTextNode(false));
@@ -420,7 +420,7 @@ EOF;
         $this->assertEquals(25, \count($children));
     }
 
-    public function testHtml5PageloadStr()
+    public function testHtml5PageloadStr(): void
     {
         $dom = new Dom();
         $dom->loadFromFile('tests/data/files/html5.html');
@@ -430,7 +430,7 @@ EOF;
         $this->assertEquals('max-width: 29px', $div->getAttribute('style'));
     }
 
-    public function testFindAttributeInBothParentAndChild()
+    public function testFindAttributeInBothParentAndChild(): void
     {
         $dom = new Dom();
         $dom->loadStr('<parent attribute="something">
@@ -442,7 +442,7 @@ EOF;
         $this->assertCount(2, $nodes);
     }
 
-    public function testLessThanCharacterInJavascript()
+    public function testLessThanCharacterInJavascript(): void
     {
         $results = (new Dom())->loadStr('<html><head><script type="text/javascript">
             console.log(1 < 3);
@@ -453,7 +453,7 @@ EOF;
         $this->assertCount(1, $results);
     }
 
-    public function testUniqueIdForAllObjects()
+    public function testUniqueIdForAllObjects(): void
     {
         // Create a dom which will be used as a parent/container for a paragraph
         $dom1 = new \PHPHtmlParser\Dom();
@@ -470,7 +470,7 @@ EOF;
         $this->assertEquals('A container div<p>Our new paragraph.</p>', $div->innerhtml);
     }
 
-    public function testFindDescendantsOfMatch()
+    public function testFindDescendantsOfMatch(): void
     {
         $dom = new Dom();
         $dom->loadStr('<p>
@@ -488,7 +488,7 @@ EOF;
         $this->assertCount(5, $nodes);
     }
 
-    public function testCompatibleWithWordPressShortcode()
+    public function testCompatibleWithWordPressShortcode(): void
     {
         $dom = new Dom();
         $dom->loadStr('<p>
@@ -499,7 +499,7 @@ EOF;
         $this->assertEquals(' [wprs_alert type="success" content="this is a short code" /] ', $node->innerHtml);
     }
 
-    public function testBrokenHtml()
+    public function testBrokenHtml(): void
     {
         $dom = new Dom();
         $dom->loadStr('<the thing broke itV');
@@ -507,7 +507,7 @@ EOF;
         $this->assertEquals('<the thing broke itv></the>', $dom->outerHtml);
     }
 
-    public function testXMLOpeningToken()
+    public function testXMLOpeningToken(): void
     {
         $dom = new Dom();
         $dom->loadStr('<?xml version="1.0" encoding="UTF-8"?><p>fun time</p>');
@@ -518,7 +518,7 @@ EOF;
     /**
      * Test to cover issue found in ticket #221.
      */
-    public function testRandomTagInMiddleOfText()
+    public function testRandomTagInMiddleOfText(): void
     {
         $dom = new Dom();
         $dom->loadStr('<p>Hello, this is just a test in which <55 names with some other text > should be interpreted as text</p>');
@@ -526,7 +526,7 @@ EOF;
         $this->assertEquals('<p>Hello, this is just a test in which <55 names with some other text> should be interpreted as text</55></p>', $dom->outerHtml);
     }
 
-    public function testHttpCall()
+    public function testHttpCall(): void
     {
         $dom = new Dom();
         $dom->loadFromUrl('http://google.com');

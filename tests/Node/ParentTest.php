@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class NodeParentTest extends TestCase
 {
-    public function testHasChild()
+    public function testHasChild(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -16,20 +16,20 @@ class NodeParentTest extends TestCase
         $this->assertTrue($parent->hasChildren());
     }
 
-    public function testHasChildNoChildren()
+    public function testHasChildNoChildren(): void
     {
         $node = new Node();
         $this->assertFalse($node->hasChildren());
     }
 
-    public function testAddChild()
+    public function testAddChild(): void
     {
         $parent = new Node();
         $child = new Node();
         $this->assertTrue($parent->addChild($child));
     }
 
-    public function testAddChildTwoParent()
+    public function testAddChildTwoParent(): void
     {
         $parent = new Node();
         $parent2 = new Node();
@@ -39,7 +39,7 @@ class NodeParentTest extends TestCase
         $this->assertFalse($parent->hasChildren());
     }
 
-    public function testGetChild()
+    public function testGetChild(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -49,7 +49,7 @@ class NodeParentTest extends TestCase
         $this->assertTrue($parent->getChild($child2->id()) instanceof Node);
     }
 
-    public function testRemoveChild()
+    public function testRemoveChild(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -58,14 +58,14 @@ class NodeParentTest extends TestCase
         $this->assertFalse($parent->hasChildren());
     }
 
-    public function testRemoveChildNotExists()
+    public function testRemoveChildNotExists(): void
     {
         $parent = new Node();
         $parent->removeChild(1);
         $this->assertFalse($parent->hasChildren());
     }
 
-    public function testNextChild()
+    public function testNextChild(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -76,7 +76,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($child2->id(), $parent->nextChild($child->id())->id());
     }
 
-    public function testHasNextChild()
+    public function testHasNextChild(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -87,7 +87,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($child2->id(), $parent->hasNextChild($child->id()));
     }
 
-    public function testHasNextChildNotExists()
+    public function testHasNextChildNotExists(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -96,7 +96,7 @@ class NodeParentTest extends TestCase
         $parent->hasNextChild($child->id());
     }
 
-    public function testNextChildWithRemove()
+    public function testNextChildWithRemove(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -110,7 +110,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($child3->id(), $parent->nextChild($child->id())->id());
     }
 
-    public function testPreviousChild()
+    public function testPreviousChild(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -121,7 +121,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($child->id(), $parent->previousChild($child2->id())->id());
     }
 
-    public function testPreviousChildWithRemove()
+    public function testPreviousChildWithRemove(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -135,7 +135,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($child->id(), $parent->previousChild($child3->id())->id());
     }
 
-    public function testFirstChild()
+    public function testFirstChild(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -148,7 +148,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($child->id(), $parent->firstChild()->id());
     }
 
-    public function testLastChild()
+    public function testLastChild(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -161,7 +161,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($child3->id(), $parent->lastChild()->id());
     }
 
-    public function testInsertBeforeFirst()
+    public function testInsertBeforeFirst(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -179,7 +179,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($parent->lastChild()->id(), $child3->id());
     }
 
-    public function testInsertBeforeLast()
+    public function testInsertBeforeLast(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -197,7 +197,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($parent->lastChild()->id(), $child3->id());
     }
 
-    public function testInsertAfterFirst()
+    public function testInsertAfterFirst(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -215,7 +215,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($parent->lastChild()->id(), $child3->id());
     }
 
-    public function testInsertAfterLast()
+    public function testInsertAfterLast(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -233,7 +233,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($parent->lastChild()->id(), $child3->id());
     }
 
-    public function testReplaceChild()
+    public function testReplaceChild(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -246,38 +246,32 @@ class NodeParentTest extends TestCase
         $this->assertFalse($parent->isChild($child->id()));
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\CircularException
-     */
-    public function testSetParentDescendantException()
+    public function testSetParentDescendantException(): void
     {
         $parent = new Node();
         $child = new Node();
         $parent->addChild($child);
+        $this->expectException(\PHPHtmlParser\Exceptions\CircularException::class);
         $parent->setParent($child);
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\CircularException
-     */
-    public function testAddChildAncestorException()
+    public function testAddChildAncestorException(): void
     {
         $parent = new Node();
         $child = new Node();
         $parent->addChild($child);
+        $this->expectException(\PHPHtmlParser\Exceptions\CircularException::class);
         $child->addChild($parent);
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\CircularException
-     */
-    public function testAddItselfAsChild()
+    public function testAddItselfAsChild(): void
     {
         $parent = new Node();
+        $this->expectException(\PHPHtmlParser\Exceptions\CircularException::class);
         $parent->addChild($parent);
     }
 
-    public function testIsAncestorParent()
+    public function testIsAncestorParent(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -285,7 +279,7 @@ class NodeParentTest extends TestCase
         $this->assertTrue($child->isAncestor($parent->id()));
     }
 
-    public function testGetAncestor()
+    public function testGetAncestor(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -294,7 +288,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($parent->id(), $ancestor->id());
     }
 
-    public function testGetGreatAncestor()
+    public function testGetGreatAncestor(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -306,7 +300,7 @@ class NodeParentTest extends TestCase
         $this->assertEquals($parent->id(), $ancestor->id());
     }
 
-    public function testGetAncestorNotFound()
+    public function testGetAncestorNotFound(): void
     {
         $parent = new Node();
         $ancestor = $parent->getAncestor(1);

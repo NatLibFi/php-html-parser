@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class NodeChildTest extends TestCase
 {
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -16,7 +16,7 @@ class NodeChildTest extends TestCase
         $this->assertEquals($parent->id(), $child->getParent()->id());
     }
 
-    public function testSetParentTwice()
+    public function testSetParentTwice(): void
     {
         $parent = new Node();
         $parent2 = new Node();
@@ -26,7 +26,7 @@ class NodeChildTest extends TestCase
         $this->assertEquals($parent2->id(), $child->getParent()->id());
     }
 
-    public function testNextSibling()
+    public function testNextSibling(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -36,27 +36,23 @@ class NodeChildTest extends TestCase
         $this->assertEquals($child2->id(), $child->nextSibling()->id());
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\ChildNotFoundException
-     */
-    public function testNextSiblingNotFound()
+    public function testNextSiblingNotFound(): void
     {
         $parent = new Node();
         $child = new Node();
         $child->setParent($parent);
+        $this->expectException(\PHPHtmlParser\Exceptions\ChildNotFoundException::class);
         $child->nextSibling();
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\ParentNotFoundException
-     */
-    public function testNextSiblingNoParent()
+    public function testNextSiblingNoParent(): void
     {
         $child = new Node();
+        $this->expectException(\PHPHtmlParser\Exceptions\ParentNotFoundException::class);
         $child->nextSibling();
     }
 
-    public function testPreviousSibling()
+    public function testPreviousSibling(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -66,27 +62,23 @@ class NodeChildTest extends TestCase
         $this->assertEquals($child->id(), $child2->previousSibling()->id());
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\ChildNotFoundException
-     */
-    public function testPreviousSiblingNotFound()
+    public function testPreviousSiblingNotFound(): void
     {
         $parent = new Node();
         $node = new Node();
         $node->setParent($parent);
+        $this->expectException(\PHPHtmlParser\Exceptions\ChildNotFoundException::class);
         $node->previousSibling();
     }
 
-    /**
-     * @expectedException \PHPHtmlParser\Exceptions\ParentNotFoundException
-     */
-    public function testPreviousSiblingNoParent()
+    public function testPreviousSiblingNoParent(): void
     {
         $child = new Node();
+        $this->expectException(\PHPHtmlParser\Exceptions\ParentNotFoundException::class);
         $child->previousSibling();
     }
 
-    public function testGetChildren()
+    public function testGetChildren(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -96,7 +88,7 @@ class NodeChildTest extends TestCase
         $this->assertEquals($child->id(), $parent->getChildren()[0]->id());
     }
 
-    public function testCountChildren()
+    public function testCountChildren(): void
     {
         $parent = new Node();
         $child = new Node();
@@ -106,7 +98,7 @@ class NodeChildTest extends TestCase
         $this->assertEquals(2, $parent->countChildren());
     }
 
-    public function testIsChild()
+    public function testIsChild(): void
     {
         $parent = new Node();
         $child1 = new Node();
