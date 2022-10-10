@@ -1,9 +1,9 @@
 {
-    "name": "paquettg/php-html-parser",
+    "name": "NatLibFi/php-html-parser",
     "type": "library",
     "description": "An HTML DOM parser. It allows you to manipulate HTML. Find tags on an HTML page with selectors just like jQuery.",
     "keywords": ["html", "dom", "parser"],
-    "homepage": "https://github.com/paquettg/php-html-parser",
+    "homepage": "https://github.com/NatLibFi/php-html-parser",
     "license": "MIT",
     "authors": [
         {
@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
+        "php": ">=7.4.7",
         "ext-mbstring": "*",
         "ext-zlib": "*",
         "ext-curl": "*",

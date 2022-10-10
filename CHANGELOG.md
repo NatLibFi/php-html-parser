@@ -5,11 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 4.0.0
+
+### Added
+- Added support for PHP 8.1, including development environment.
+
+### Changed
+- Fixed comment tag parsing.
+- Updated dependencies including phpunit.
+
+### Removed
+- Dropped support for PHP versions prior to 7.4.7.
+
 ## 3.1.1
 
 ### Changed
 - Fixed issue with numbers in comments.
-- Updated minimume php version to correct version.
+- Updated minimum php version to correct version.
 - Comment tags are now self-closing when cleanup input is set to false.
 
 ## 3.1.0
