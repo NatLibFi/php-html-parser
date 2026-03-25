@@ -234,11 +234,7 @@ abstract class AbstractNode
      */
     public function isAncestor(int $id): bool
     {
-        if ($this->getAncestor($id) !== null) {
-            return true;
-        }
-
-        return false;
+        return $this->getAncestor($id) !== null;
     }
 
     /**

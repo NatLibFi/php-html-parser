@@ -78,11 +78,7 @@ class TextNode extends LeafNode
      */
     public function text(): string
     {
-        if ($this->htmlSpecialCharsDecode) {
-            $text = htmlspecialchars_decode($this->text);
-        } else {
-            $text = $this->text;
-        }
+        $text = $this->htmlSpecialCharsDecode ? htmlspecialchars_decode($this->text) : $this->text;
         // convert charset
         if (null !== $this->encode) {
             if (null !== $this->convertedText) {

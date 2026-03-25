@@ -210,7 +210,7 @@ abstract class InnerNode extends ArrayNode
         }
 
         if (isset($this->children[$id]['next']) && is_int($this->children[$id]['next'])) {
-            return $this->addChild($child, (int)$this->children[$id]['next']);
+            return $this->addChild($child, $this->children[$id]['next']);
         }
 
         // clear cache
@@ -303,13 +303,7 @@ abstract class InnerNode extends ArrayNode
      */
     public function isChild(int $id): bool
     {
-        foreach (array_keys($this->children) as $childId) {
-            if ($id == $childId) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array($id, array_keys($this->children));
     }
 
     /**

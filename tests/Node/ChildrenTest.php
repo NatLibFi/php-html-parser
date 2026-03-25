@@ -6,7 +6,7 @@ require_once 'tests/data/MockNode.php';
 use PHPHtmlParser\Dom\Node\MockNode as Node;
 use PHPUnit\Framework\TestCase;
 
-class NodeChildTest extends TestCase
+class ChildrenTest extends TestCase
 {
     public function testGetParent(): void
     {
