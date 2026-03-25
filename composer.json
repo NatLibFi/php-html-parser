@@ -37,8 +37,8 @@
         "myclabs/php-enum": "^1.8.4"
     },
     "require-dev": {
-        "mockery/mockery": "^1.2",
-        "phpstan/phpstan": "2.1.32",
+        "mockery/mockery": "1.6.12",
+        "phpstan/phpstan": "2.1.43",
         "phpunit/phpunit": "11.5.55",
         "rector/rector": "2.3.9",
         "friendsofphp/php-cs-fixer": "^3.11.0"
@@ -59,7 +59,7 @@
             "vendor/bin/rector --config=tests/rector.php --dry-run",
             "vendor/bin/php-cs-fixer fix --dry-run -v --diff",
             "vendor/bin/phpstan --configuration=tests/phpstan.neon analyse",
-            "vendor/bin/phpunit"
+            "vendor/bin/phpunit --display-deprecations --display-phpunit-deprecations"
         ]
     }
 }
