@@ -17,8 +17,16 @@
             "homepage": "http://nationallibrary.fi"
         }
     ],
+    "config": {
+        "platform": {
+            "php": "8.2"
+        },
+        "allow-plugins": {
+            "infection/extension-installer": false
+        }
+    },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.2",
         "ext-mbstring": "*",
         "ext-zlib": "*",
         "ext-curl": "*",
@@ -29,10 +37,10 @@
         "myclabs/php-enum": "^1.8.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5.25",
-        "mockery/mockery": "^1.2",
-        "infection/infection": "^0.26.6",
-        "phan/phan": "^5.4.1",
+        "mockery/mockery": "1.6.12",
+        "phpstan/phpstan": "2.1.43",
+        "phpunit/phpunit": "11.5.55",
+        "rector/rector": "2.3.9",
         "friendsofphp/php-cs-fixer": "^3.11.0"
     },
     "autoload": {
@@ -40,9 +48,18 @@
         	"PHPHtmlParser\\": "src/PHPHtmlParser"
        	}
     },
-    "config": {
-        "allow-plugins": {
-            "infection/extension-installer": false
-        }
+    "scripts": {
+        "fix": [
+            "echo Rector:",
+            "vendor/bin/rector --config=tests/rector.php",
+            "vendor/bin/php-cs-fixer fix -v --diff"
+        ],
+        "qa": [
+            "echo Rector:",
+            "vendor/bin/rector --config=tests/rector.php --dry-run",
+            "vendor/bin/php-cs-fixer fix --dry-run -v --diff",
+            "vendor/bin/phpstan --configuration=tests/phpstan.neon analyse",
+            "vendor/bin/phpunit --display-deprecations --display-phpunit-deprecations"
+        ]
     }
 }

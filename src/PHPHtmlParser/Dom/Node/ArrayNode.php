@@ -9,6 +9,8 @@ use Countable;
 use IteratorAggregate;
 use PHPHtmlParser\Dom\Tag;
 
+use function count;
+
 /**
  * Dom node object which will allow users to use it as
  * an array.
@@ -35,7 +37,7 @@ abstract class ArrayNode extends AbstractNode implements IteratorAggregate, Coun
      */
     public function count(): int
     {
-        return \count($this->getIteratorArray());
+        return count($this->getIteratorArray());
     }
 
     /**

@@ -61,7 +61,7 @@ class StaticDomTest extends TestCase
         $streamMock = Mockery::mock(\Psr\Http\Message\StreamInterface::class);
         $streamMock->shouldReceive('getContents')
             ->once()
-            ->andReturn(\file_get_contents('tests/data/files/small.html'));
+            ->andReturn(file_get_contents('tests/data/files/small.html'));
         $responseMock = Mockery::mock(\Psr\Http\Message\ResponseInterface::class);
         $responseMock->shouldReceive('getBody')
             ->once()

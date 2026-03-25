@@ -42,7 +42,7 @@ class CollectionTest extends TestCase
     public function testNoNodeString(): void
     {
         $collection = new Collection();
-        $string = (string) $collection;
+        $string = (string)$collection;
         $this->assertEmpty($string);
     }
 
@@ -98,7 +98,7 @@ class CollectionTest extends TestCase
         $child2->addChild($child3);
 
         $selector = new Selector('div * a', new Parser());
-        $this->assertEquals((string) $child3, (string) $selector->find($root));
+        $this->assertEquals((string)$child3, (string)$selector->find($root));
     }
 
     public function testToArray(): void
@@ -116,7 +116,7 @@ class CollectionTest extends TestCase
         $selector = new Selector('a', new Parser());
         $collection = $selector->find($root);
         $array = $collection->toArray();
-        $lastA = \end($array);
+        $lastA = end($array);
         $this->assertEquals($child3->id(), $lastA->id());
     }
 
@@ -124,7 +124,7 @@ class CollectionTest extends TestCase
     {
         $collection = new Collection();
         $iterator = $collection->getIterator();
-        $this->assertTrue($iterator instanceof \ArrayIterator);
+        $this->assertInstanceOf(\ArrayIterator::class, $iterator);
     }
 
     public function testOffsetSet(): void
@@ -139,6 +139,6 @@ class CollectionTest extends TestCase
         $collection = new Collection();
         $collection->offsetSet(7, true);
         $collection->offsetUnset(7);
-        $this->assertTrue(\is_null($collection->offsetGet(7)));
+        $this->assertTrue(null === $collection->offsetGet(7));
     }
 }

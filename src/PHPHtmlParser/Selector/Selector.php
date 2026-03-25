@@ -15,6 +15,8 @@ use PHPHtmlParser\DTO\Selector\ParsedSelectorCollectionDTO;
 use PHPHtmlParser\DTO\Selector\RuleDTO;
 use PHPHtmlParser\Exceptions\ChildNotFoundException;
 
+use function count;
+
 /**
  * Class Selector.
  */
@@ -65,7 +67,7 @@ class Selector implements SelectorInterface
         $results = new Collection();
         foreach ($this->ParsedSelectorCollectionDTO->getParsedSelectorDTO() as $selector) {
             $nodes = [$node];
-            if (\count($selector->getRules()) == 0) {
+            if (count($selector->getRules()) == 0) {
                 continue;
             }
 

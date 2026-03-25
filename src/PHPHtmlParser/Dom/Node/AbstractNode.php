@@ -14,6 +14,8 @@ use PHPHtmlParser\Finder;
 use PHPHtmlParser\Selector\Selector;
 use stringEncode\Encode;
 
+use function is_string;
+
 /**
  * Dom node object.
  *
@@ -48,6 +50,20 @@ abstract class AbstractNode
     protected $parent;
 
     /**
+     * Previous node.
+     *
+     * @var ?AbstractNode
+     */
+    protected $prev = null;
+
+    /**
+     * Next node.
+     *
+     * @var ?AbstractNode
+     */
+    protected $next = null;
+
+    /**
      * The unique id of the class. Given by PHP.
      *
      * @var int
@@ -72,6 +88,7 @@ abstract class AbstractNode
      * @var bool
      */
     protected $htmlSpecialCharsDecode = false;
+
     /**
      * @var int
      */
@@ -108,7 +125,7 @@ abstract class AbstractNode
         if ($this->getAttribute($key) !== null) {
             return $this->getAttribute($key);
         }
-        switch (\strtolower($key)) {
+        switch (strtolower($key)) {
             case 'outerhtml':
                 return $this->outerHtml();
             case 'innerhtml':
@@ -153,7 +170,6 @@ abstract class AbstractNode
     /**
      * Returns the parent of node.
      *
-     * @return InnerNode
      */
     public function getParent(): ?InnerNode
     {
@@ -218,11 +234,7 @@ abstract class AbstractNode
      */
     public function isAncestor(int $id): bool
     {
-        if ($this->getAncestor($id) !== null) {
-            return true;
-        }
-
-        return false;
+        return $this->getAncestor($id) !== null;
     }
 
     /**
@@ -309,7 +321,7 @@ abstract class AbstractNode
      */
     public function setTag($tag): AbstractNode
     {
-        if (\is_string($tag)) {
+        if (is_string($tag)) {
             $tag = new Tag($tag);
         }
 
@@ -430,7 +442,7 @@ abstract class AbstractNode
      */
     public function find(string $selectorString, ?int $nth = null, ?SelectorInterface $selector = null)
     {
-        if (\is_null($selector)) {
+        if (null === $selector) {
             $selector = new Selector($selectorString);
         }
 
@@ -473,6 +485,11 @@ abstract class AbstractNode
      * tag.
      */
     abstract public function outerHtml(): string;
+
+    /**
+     * Gets the inner text of this node.
+     */
+    abstract public function innerText(): string;
 
     /**
      * Gets the text of this node (if there is any text).

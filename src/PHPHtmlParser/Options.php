@@ -285,7 +285,7 @@ class Options
     public function removeSelfClosingTag(string $tag): Options
     {
         $tags = [$tag];
-        $this->selfClosing = \array_diff($this->selfClosing, $tags);
+        $this->selfClosing = array_diff($this->selfClosing, $tags);
 
         return clone $this;
     }
@@ -334,7 +334,7 @@ class Options
     public function removeNoSlashTag(string $tag): Options
     {
         $tags = [$tag];
-        $this->noSlash = \array_diff($this->noSlash, $tags);
+        $this->noSlash = array_diff($this->noSlash, $tags);
 
         return clone $this;
     }

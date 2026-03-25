@@ -14,6 +14,24 @@ namespace PHPHtmlParser\Dom\Node;
 class MockNode extends InnerNode
 {
     /**
+     * Inner HTML.
+     *
+     */
+    protected ?string $innerHtml;
+
+    /**
+     * Outer HTML.
+     *
+     */
+    protected ?string $outerHtml;
+
+    /**
+     * Text.
+     *
+     */
+    protected ?string $text;
+
+    /**
      * Mock of innner html.
      */
     public function innerHtml(): string
@@ -38,6 +56,14 @@ class MockNode extends InnerNode
     }
 
     /**
+     * Return the text.
+     */
+    public function innerText(): string
+    {
+        return '';
+    }
+
+    /**
      * Clear content of this node.
      */
     protected function clear(): void
@@ -45,7 +71,7 @@ class MockNode extends InnerNode
         $this->innerHtml = null;
         $this->outerHtml = null;
         $this->text = null;
-        if (\is_null($this->parent) === false) {
+        if ((null === $this->parent) === false) {
             $this->parent->clear();
         }
     }

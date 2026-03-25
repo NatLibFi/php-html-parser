@@ -13,6 +13,8 @@ use PHPHtmlParser\Exceptions\StrictException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 
+use function call_user_func_array;
+
 /**
  * Class StaticDom.
  */
@@ -31,7 +33,7 @@ final class StaticDom
     public static function __callStatic(string $method, array $arguments)
     {
         if (self::$dom instanceof Dom) {
-            return \call_user_func_array([self::$dom, $method], $arguments);
+            return call_user_func_array([self::$dom, $method], $arguments);
         }
         throw new NotLoadedException('The dom is not loaded. Can not call a dom method.');
     }
@@ -40,14 +42,13 @@ final class StaticDom
      * Call this to mount the static facade. The facade allows you to use
      * this object as a $className.
      *
-     * @param ?Dom $dom
      */
     public static function mount(string $className = 'Dom', ?Dom $dom = null): bool
     {
-        if (\class_exists($className)) {
+        if (class_exists($className)) {
             return false;
         }
-        \class_alias(__CLASS__, $className);
+        class_alias(__CLASS__, $className);
         if ($dom instanceof Dom) {
             self::$dom = $dom;
         }
@@ -81,15 +82,15 @@ final class StaticDom
      * @throws StrictException
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public static function loadFromUrl(string $url, ?Options $options = null, ClientInterface $client = null, RequestInterface $request = null): Dom
+    public static function loadFromUrl(string $url, ?Options $options = null, ?ClientInterface $client = null, ?RequestInterface $request = null): Dom
     {
         $dom = new Dom();
         self::$dom = $dom;
 
-        if (\is_null($client)) {
+        if (null === $client) {
             $client = new Client();
         }
-        if (\is_null($request)) {
+        if (null === $request) {
             $request = new Request('GET', $url);
         }
 

@@ -13,8 +13,8 @@ class CleanupTest extends TestCase
         $dom = new Dom();
         $dom->setOptions((new Options())->setCleanupInput(true));
         $dom->loadFromFile('tests/data/files/big.html');
-        $this->assertEquals(0, \count($dom->find('style')));
-        $this->assertEquals(0, \count($dom->find('script')));
+        $this->assertCount(0, $dom->find('style'));
+        $this->assertCount(0, $dom->find('script'));
     }
 
     public function testCleanupInputFalse(): void
@@ -22,8 +22,8 @@ class CleanupTest extends TestCase
         $dom = new Dom();
         $dom->setOptions((new Options())->setCleanupInput(false));
         $dom->loadFromFile('tests/data/files/big.html');
-        $this->assertEquals(1, \count($dom->find('style')));
-        $this->assertEquals(22, \count($dom->find('script')));
+        $this->assertCount(1, $dom->find('style'));
+        $this->assertCount(22, $dom->find('script'));
     }
 
     public function testRemoveStylesTrue(): void
@@ -31,7 +31,7 @@ class CleanupTest extends TestCase
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveStyles(true));
         $dom->loadFromFile('tests/data/files/big.html');
-        $this->assertEquals(0, \count($dom->find('style')));
+        $this->assertCount(0, $dom->find('style'));
     }
 
     public function testRemoveStylesFalse(): void
@@ -39,7 +39,7 @@ class CleanupTest extends TestCase
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveStyles(false));
         $dom->loadFromFile('tests/data/files/big.html');
-        $this->assertEquals(1, \count($dom->find('style')));
+        $this->assertCount(1, $dom->find('style'));
         $this->assertEquals(
             'text/css',
             $dom->find('style')->getAttribute('type')
@@ -51,7 +51,7 @@ class CleanupTest extends TestCase
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveScripts(true));
         $dom->loadFromFile('tests/data/files/big.html');
-        $this->assertEquals(0, \count($dom->find('script')));
+        $this->assertCount(0, $dom->find('script'));
     }
 
     public function testRemoveScriptsFalse(): void
@@ -59,7 +59,7 @@ class CleanupTest extends TestCase
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveScripts(false));
         $dom->loadFromFile('tests/data/files/big.html');
-        $this->assertEquals(22, \count($dom->find('script')));
+        $this->assertCount(22, $dom->find('script'));
         $this->assertEquals(
             'text/javascript',
             $dom->find('script')->getAttribute('type')

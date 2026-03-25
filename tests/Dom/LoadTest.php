@@ -55,7 +55,7 @@ class LoadTest extends TestCase
 
     public function testToStringMagic(): void
     {
-        $this->assertEquals('<div class="all"><br /><p>Hey bro, <a href="google.com" id="78" data-quote="\"">click here</a></p></div><br class="both" />', (string) $this->dom);
+        $this->assertEquals('<div class="all"><br /><p>Hey bro, <a href="google.com" id="78" data-quote="\"">click here</a></p></div><br class="both" />', (string)$this->dom);
     }
 
     public function testGetMagic(): void
@@ -93,6 +93,6 @@ class LoadTest extends TestCase
         $a = $this->dom->find('a')[0];
         $a->delete();
         unset($a);
-        $this->assertEquals('<div class="all"><br /><p>Hey bro, </p></div><br class="both" />', (string) $this->dom);
+        $this->assertEquals('<div class="all"><br /><p>Hey bro, </p></div><br class="both" />', (string)$this->dom);
     }
 }

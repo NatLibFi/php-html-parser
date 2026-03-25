@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PHPHtmlParser\Dom;
 use PHPHtmlParser\Options;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class CommentTest extends TestCase
@@ -12,7 +13,7 @@ class CommentTest extends TestCase
      * Data provider for testComment.
      *
      */
-    public function getTestCommentData(): array
+    public static function getTestCommentData(): array
     {
         return [
             ['<!-- test comment with number 2 -->'],
@@ -24,10 +25,9 @@ class CommentTest extends TestCase
     /**
      * Test comment handling.
      *
-     * @dataProvider getTestCommentData
-     *
      * @param mixed $comment
      */
+    #[DataProvider('getTestCommentData')]
     public function testComment($comment): void
     {
         $dom = new Dom();

@@ -421,7 +421,7 @@ class NodeHtmlTest extends TestCase
         $node->setAttribute('class', 'foo');
         $node->setAttribute('href', 'http://google.com');
         $node->removeAllAttributes();
-        $this->assertEquals(0, \count($node->getAttributes()));
+        $this->assertCount(0, $node->getAttributes());
     }
 
     public function testSetTag(): void
@@ -462,7 +462,7 @@ class NodeHtmlTest extends TestCase
         $parent->addChild($childbr);
         $childa->addChild(new TextNode('link'));
 
-        $this->assertEquals(\count($parent->getChildren()), \count($parent));
+        $this->assertEquals(count($parent->getChildren()), count($parent));
     }
 
     public function testIterator(): void
@@ -513,7 +513,7 @@ class NodeHtmlTest extends TestCase
         $id = $dom->find('p')[0]->id();
         $newChild = new HtmlNode('h1');
         $dom->find('p')[0]->getParent()->replaceChild($id, $newChild);
-        $this->assertEquals('<div class="all"><h1></h1></div>', (string) $dom);
+        $this->assertEquals('<div class="all"><h1></h1></div>', (string)$dom);
     }
 
     public function testTextNodeFirstChild(): void

@@ -19,7 +19,6 @@ class Finder
     /**
      * Finder constructor.
      *
-     * @param $id
      */
     public function __construct($id)
     {

@@ -8,6 +8,8 @@ use PHPHtmlParser\DTO\Tag\AttributeDTO;
 use PHPHtmlParser\Exceptions\Tag\AttributeNotFoundException;
 use stringEncode\Encode;
 
+use function is_array;
+
 /**
  * Class Tag.
  */
@@ -75,7 +77,6 @@ class Tag
     /**
      * Sets up the tag with a name.
      *
-     * @param $name
      */
     public function __construct(string $name)
     {
@@ -170,7 +171,7 @@ class Tag
         if ($this->HtmlSpecialCharsDecode) {
             $attributeDTO->htmlspecialcharsDecode();
         }
-        $this->attr[\strtolower($key)] = $attributeDTO;
+        $this->attr[strtolower($key)] = $attributeDTO;
 
         return clone $this;
     }
@@ -201,13 +202,13 @@ class Tag
     {
         try {
             $value = $this->getAttribute('style')->getValue();
-            if (\is_null($value)) {
+            if (null === $value) {
                 return [];
             }
-            $value = \explode(';', \substr(\trim($value), 0, -1));
+            $value = explode(';', substr(trim($value), 0, -1));
             $result = [];
             foreach ($value as $attr) {
-                $attr = \explode(':', $attr);
+                $attr = explode(':', $attr);
                 $result[$attr[0]] = $attr[1];
             }
 
@@ -228,7 +229,7 @@ class Tag
      */
     public function removeAttribute($key)
     {
-        $key = \strtolower($key);
+        $key = strtolower($key);
         unset($this->attr[$key]);
     }
 
@@ -250,7 +251,7 @@ class Tag
     public function setAttributes(array $attr)
     {
         foreach ($attr as $key => $info) {
-            if (\is_array($info)) {
+            if (is_array($info)) {
                 $this->setAttribute($key, $info['value'], $info['doubleQuote']);
             } else {
                 $this->setAttribute($key, $info);
@@ -270,7 +271,7 @@ class Tag
     public function getAttributes(): array
     {
         $return = [];
-        foreach (\array_keys($this->attr) as $attr) {
+        foreach (array_keys($this->attr) as $attr) {
             try {
                 $return[$attr] = $this->getAttribute($attr);
             } catch (AttributeNotFoundException $e) {
@@ -290,12 +291,12 @@ class Tag
      */
     public function getAttribute(string $key): AttributeDTO
     {
-        $key = \strtolower($key);
+        $key = strtolower($key);
         if (!isset($this->attr[$key])) {
             throw new AttributeNotFoundException('Attribute with key "' . $key . '" not found.');
         }
         $attributeDTO = $this->attr[$key];
-        if (!\is_null($this->encode)) {
+        if (null !== $this->encode) {
             // convert charset
             $attributeDTO->encodeValue($this->encode);
         }
@@ -323,7 +324,7 @@ class Tag
         $return = $this->opening . $this->name;
 
         // add the attributes
-        foreach (\array_keys($this->attr) as $key) {
+        foreach (array_keys($this->attr) as $key) {
             try {
                 $attributeDTO = $this->getAttribute($key);
             } catch (AttributeNotFoundException $e) {
@@ -333,7 +334,7 @@ class Tag
                 $val = null;
             }
             $val = $attributeDTO->getValue();
-            if (\is_null($val)) {
+            if (null === $val) {
                 $return .= ' ' . $key;
             } elseif ($attributeDTO->isDoubleQuote()) {
                 $return .= ' ' . $key . '="' . $val . '"';

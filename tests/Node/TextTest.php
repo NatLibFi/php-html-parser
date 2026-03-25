@@ -60,7 +60,7 @@ class NodeTextTest extends TestCase
         $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a><br /> :)</p></div>');
         $a = $dom->find('a')[0];
         $a->firstChild()->setText('biz baz');
-        $this->assertEquals('<div class="all"><p>Hey bro, <a href="google.com">biz baz</a><br /> :)</p></div>', (string) $dom);
+        $this->assertEquals('<div class="all"><p>Hey bro, <a href="google.com">biz baz</a><br /> :)</p></div>', (string)$dom);
     }
 
     public function testSetTextEncoded(): void

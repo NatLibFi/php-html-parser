@@ -8,6 +8,8 @@ use PHPHtmlParser\Enum\StringToken;
 use PHPHtmlParser\Exceptions\ContentLengthException;
 use PHPHtmlParser\Exceptions\LogicalException;
 
+use function strlen;
+
 /**
  * Class Content.
  */
@@ -40,8 +42,11 @@ class Content
      * @var string
      */
     protected $blank = " \t\r\n";
+
     protected $equal = ' =/>';
+
     protected $slash = " />\r\n\t";
+
     protected $attr = ' >';
 
     /**
@@ -50,7 +55,7 @@ class Content
     public function __construct(string $content = '')
     {
         $this->content = $content;
-        $this->size = \strlen($content);
+        $this->size = strlen($content);
         $this->pos = 0;
     }
 
@@ -65,7 +70,6 @@ class Content
     /**
      * Gets the current character we are at.
      *
-     * @param ?int $char
      */
     public function char(?int $char = null): string
     {
@@ -108,7 +112,7 @@ class Content
      */
     public function canFastForward(int $count): bool
     {
-        return \strlen($this->content) >= $this->pos + $count;
+        return strlen($this->content) >= $this->pos + $count;
     }
 
     /**
@@ -138,7 +142,7 @@ class Content
             $position = $this->pos;
             $found = false;
             while (!$found) {
-                $position = \strpos($this->content, $string, $position);
+                $position = strpos($this->content, $string, $position);
                 if ($position === false) {
                     // reached the end
                     break;
@@ -153,15 +157,15 @@ class Content
                 $found = true;
             }
         } elseif ($char) {
-            $position = \strcspn($this->content, $string, $this->pos);
+            $position = strcspn($this->content, $string, $this->pos);
             $position += $this->pos;
         } else {
-            $position = \strpos($this->content, $string, $this->pos);
+            $position = strpos($this->content, $string, $this->pos);
         }
 
         if ($position === false) {
             // could not find character, just return the remaining of the content
-            $return = \substr($this->content, $this->pos, $this->size - $this->pos);
+            $return = substr($this->content, $this->pos, $this->size - $this->pos);
             if ($return === false) {
                 throw new LogicalException('Substr returned false with position ' . $this->pos . '.');
             }
@@ -175,7 +179,7 @@ class Content
             return '';
         }
 
-        $return = \substr($this->content, $this->pos, $position - $this->pos);
+        $return = substr($this->content, $this->pos, $position - $this->pos);
         if ($return === false) {
             throw new LogicalException('Substr returned false with position ' . $this->pos . '.');
         }
@@ -195,8 +199,8 @@ class Content
         $this->fastForward(1);
         $foundString = $this->copyUntil($string, true, true);
 
-        $position = \strcspn($foundString, $unless);
-        if ($position == \strlen($foundString)) {
+        $position = strcspn($foundString, $unless);
+        if ($position == strlen($foundString)) {
             return $string . $foundString;
         }
         // rewind changes and return nothing
@@ -224,13 +228,13 @@ class Content
      */
     public function skip(string $string, bool $copy = false): string
     {
-        $len = \strspn($this->content, $string, $this->pos);
+        $len = strspn($this->content, $string, $this->pos);
         if ($len === false) {
             throw new LogicalException('Strspn returned false with position ' . $this->pos . '.');
         }
         $return = '';
         if ($copy) {
-            $return = \substr($this->content, $this->pos, $len);
+            $return = substr($this->content, $this->pos, $len);
             if ($return === false) {
                 throw new LogicalException('Substr returned false with position ' . $this->pos . '.');
             }

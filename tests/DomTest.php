@@ -38,7 +38,7 @@ class DomTest extends TestCase
         $dom = new Dom();
         $dom->loadStr("<div class='all'><br  foo  bar  />baz</div>");
         $br = $dom->find('br', 0);
-        $this->assertEquals('<br foo bar />', (string) $br);
+        $this->assertEquals('<br foo bar />', (string)$br);
     }
 
     public function testLoadNoOpeningTag(): void
@@ -116,15 +116,15 @@ class DomTest extends TestCase
         $dom = new Dom();
         $dom->setOptions((new Options())->setCleanupInput(false));
         $dom->loadFromFile('tests/data/files/whitespace.html');
-        $this->assertEquals(1, \count($dom->find('.class')));
-        $this->assertEquals('<span><span class="class"></span></span>', (string) $dom);
+        $this->assertCount(1, $dom->find('.class'));
+        $this->assertEquals('<span><span class="class"></span></span>', (string)$dom);
     }
 
     public function testLoadFileBig(): void
     {
         $dom = new Dom();
         $dom->loadFromFile('tests/data/files/big.html');
-        $this->assertEquals(20, \count($dom->find('.content-border')));
+        $this->assertCount(20, $dom->find('.content-border'));
     }
 
     public function testLoadFileBigTwice(): void
@@ -145,7 +145,7 @@ class DomTest extends TestCase
         $post = $dom->find('.post-row', 0);
         $this->assertEquals(
             "<p>Журчанье воды<br />\nЧерно-белые тени<br />\nВновь на фонтане</p>",
-            \trim($post->find('.post-message', 0)->innerHtml)
+            trim($post->find('.post-message', 0)->innerHtml)
         );
     }
 
@@ -154,7 +154,7 @@ class DomTest extends TestCase
         $streamMock = Mockery::mock(\Psr\Http\Message\StreamInterface::class);
         $streamMock->shouldReceive('getContents')
             ->once()
-            ->andReturn(\file_get_contents('tests/data/files/small.html'));
+            ->andReturn(file_get_contents('tests/data/files/small.html'));
         $responseMock = Mockery::mock(\Psr\Http\Message\ResponseInterface::class);
         $responseMock->shouldReceive('getBody')
             ->once()
@@ -208,14 +208,14 @@ class DomTest extends TestCase
     {
         $dom = new Dom();
         $dom->loadStr('<div class="stream-container "  > <div class="stream-item js-new-items-bar-container"> </div> <div class="stream">');
-        $this->assertEquals('<div class="stream-container "> <div class="stream-item js-new-items-bar-container"> </div> <div class="stream"></div></div>', (string) $dom);
+        $this->assertEquals('<div class="stream-container "> <div class="stream-item js-new-items-bar-container"> </div> <div class="stream"></div></div>', (string)$dom);
     }
 
     public function testCodeTag(): void
     {
         $dom = new Dom();
         $dom->loadStr('<strong>hello</strong><code class="language-php">$foo = "bar";</code>');
-        $this->assertEquals('<strong>hello</strong><code class="language-php">$foo = "bar";</code>', (string) $dom);
+        $this->assertEquals('<strong>hello</strong><code class="language-php">$foo = "bar";</code>', (string)$dom);
     }
 
     public function testCountChildren(): void
@@ -244,7 +244,7 @@ class DomTest extends TestCase
         $dom = new Dom();
         $dom->setOptions((new Options())->setRemoveDoubleSpace(false));
         $dom->loadStr('<pre>    Hello world</pre>');
-        $this->assertEquals('<pre>    Hello world</pre>', (string) $dom);
+        $this->assertEquals('<pre>    Hello world</pre>', (string)$dom);
     }
 
     public function testGetComplexAttribute(): void
@@ -273,7 +273,7 @@ class DomTest extends TestCase
 
         $imgNode = $dom->root->find('img');
         $children = $imgNode->getChildren();
-        $this->assertTrue(\count($children) === 0);
+        $this->assertTrue(count($children) === 0);
     }
 
     public function testInfiniteLoopNotHappening(): void
@@ -289,7 +289,7 @@ class DomTest extends TestCase
                 <');
 
         $metaNodes = $dom->root->find('meta');
-        $this->assertEquals(4, \count($metaNodes));
+        $this->assertCount(4, $metaNodes);
     }
 
     public function testFindOrder(): void
@@ -299,7 +299,7 @@ class DomTest extends TestCase
         $dom->loadStr($str);
         $images = $dom->find('img');
 
-        $this->assertEquals('<img src="http://example.com/first.jpg" />', (string) $images[0]);
+        $this->assertEquals('<img src="http://example.com/first.jpg" />', (string)$images[0]);
     }
 
     public function testCaseInSensitivity(): void
@@ -329,14 +329,14 @@ class DomTest extends TestCase
         $dom->loadStr($str);
 
         $items = $dom->find('.summary .foo');
-        $this->assertEquals(1, \count($items));
+        $this->assertCount(1, $items);
     }
 
     public function testInnerText(): void
     {
         $html = <<<EOF
-<body class="" style="" data-gr-c-s-loaded="true">123<a>456789</a><span>101112</span></body>
-EOF;
+            <body class="" style="" data-gr-c-s-loaded="true">123<a>456789</a><span>101112</span></body>
+            EOF;
         $dom = new Dom();
         $dom->loadStr($html);
         $this->assertEquals($dom->innerText, '123456789101112');
@@ -348,7 +348,7 @@ EOF;
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
 
         $items = $dom->find('input[type=text][name=foo][baz=fig]');
-        $this->assertEquals(1, \count($items));
+        $this->assertCount(1, $items);
     }
 
     public function testNotSquareSelector(): void
@@ -357,7 +357,7 @@ EOF;
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
 
         $items = $dom->find('input[type!=foo]');
-        $this->assertEquals(1, \count($items));
+        $this->assertCount(1, $items);
     }
 
     public function testStartSquareSelector(): void
@@ -366,7 +366,7 @@ EOF;
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
 
         $items = $dom->find('input[name^=f]');
-        $this->assertEquals(1, \count($items));
+        $this->assertCount(1, $items);
     }
 
     public function testEndSquareSelector(): void
@@ -375,7 +375,7 @@ EOF;
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
 
         $items = $dom->find('input[baz$=g]');
-        $this->assertEquals(1, \count($items));
+        $this->assertCount(1, $items);
     }
 
     public function testStarSquareSelector(): void
@@ -384,7 +384,7 @@ EOF;
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
 
         $items = $dom->find('input[baz*=*]');
-        $this->assertEquals(1, \count($items));
+        $this->assertCount(1, $items);
     }
 
     public function testStarFullRegexSquareSelector(): void
@@ -393,7 +393,7 @@ EOF;
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
 
         $items = $dom->find('input[baz*=/\w+/]');
-        $this->assertEquals(1, \count($items));
+        $this->assertCount(1, $items);
     }
 
     public function testFailedSquareSelector(): void
@@ -402,7 +402,7 @@ EOF;
         $dom->loadStr('<input name="foo" type="text" baz="fig">');
 
         $items = $dom->find('input[baz%=g]');
-        $this->assertEquals(1, \count($items));
+        $this->assertCount(1, $items);
     }
 
     public function testLoadGetAttributeWithBackslash(): void
@@ -419,7 +419,7 @@ EOF;
         $dom->setOptions((new Options())->setWhitespaceTextNode(false));
         $dom->loadFromFile('tests/data/files/51children.html');
         $children = $dom->find('#red-line-g *');
-        $this->assertEquals(25, \count($children));
+        $this->assertCount(25, $children);
     }
 
     public function testHtml5PageloadStr(): void
