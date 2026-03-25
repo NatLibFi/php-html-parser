@@ -180,7 +180,7 @@ class Dom implements DomInterface
      *
      * @return mixed|Collection|null
      */
-    public function find(string $selector, int $nth = null)
+    public function find(string $selector, ?int $nth = null)
     {
         $this->isLoaded();
 

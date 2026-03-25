@@ -81,7 +81,7 @@ final class StaticDom
      * @throws StrictException
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public static function loadFromUrl(string $url, ?Options $options = null, ClientInterface $client = null, RequestInterface $request = null): Dom
+    public static function loadFromUrl(string $url, ?Options $options = null, ?ClientInterface $client = null, ?RequestInterface $request = null): Dom
     {
         $dom = new Dom();
         self::$dom = $dom;

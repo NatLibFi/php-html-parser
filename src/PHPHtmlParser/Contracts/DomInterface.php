@@ -19,5 +19,5 @@ interface DomInterface
 
     public function setOptions(Options $options): Dom;
 
-    public function find(string $selector, int $nth = null);
+    public function find(string $selector, ?int $nth = null);
 }

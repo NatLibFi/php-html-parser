@@ -48,6 +48,20 @@ abstract class AbstractNode
     protected $parent;
 
     /**
+     * Previous node
+     *
+     * @var ?AbstractNode
+     */
+    protected $prev = null;
+
+    /**
+     * Next node
+     *
+     * @var ?AbstractNode
+     */
+    protected $next = null;
+
+    /**
      * The unique id of the class. Given by PHP.
      *
      * @var int

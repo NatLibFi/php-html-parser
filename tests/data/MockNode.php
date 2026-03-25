@@ -14,6 +14,27 @@ namespace PHPHtmlParser\Dom\Node;
 class MockNode extends InnerNode
 {
     /**
+     * Inner HTML
+     *
+     * @var ?string
+     */
+    protected ?string $innerHtml;
+
+    /**
+     * Outer HTML
+     *
+     * @var ?string
+     */
+    protected ?string $outerHtml;
+
+    /**
+     * Text
+     *
+     * @var ?string
+     */
+    protected ?string $text;
+
+    /**
      * Mock of innner html.
      */
     public function innerHtml(): string
