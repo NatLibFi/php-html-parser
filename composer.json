@@ -38,7 +38,7 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.2",
-        "phan/phan": "^6.0.4",
+        "phpstan/phpstan": "2.1.32",
         "phpunit/phpunit": "11.5.55",
         "rector/rector": "2.3.9",
         "friendsofphp/php-cs-fixer": "^3.11.0"
@@ -58,6 +58,7 @@
             "echo Rector:",
             "vendor/bin/rector --config=tests/rector.php --dry-run",
             "vendor/bin/php-cs-fixer fix --dry-run -v --diff",
+            "vendor/bin/phpstan --configuration=tests/phpstan.neon analyse",
             "vendor/bin/phpunit"
         ]
     }

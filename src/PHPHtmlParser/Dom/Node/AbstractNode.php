@@ -487,6 +487,11 @@ abstract class AbstractNode
     abstract public function outerHtml(): string;
 
     /**
+     * Gets the inner text of this node.
+     */
+    abstract public function innerText(): string;
+
+    /**
      * Gets the text of this node (if there is any text).
      */
     abstract public function text(): string;

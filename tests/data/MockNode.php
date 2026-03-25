@@ -56,6 +56,14 @@ class MockNode extends InnerNode
     }
 
     /**
+     * Return the text.
+     */
+    public function innerText(): string
+    {
+        return '';
+    }
+
+    /**
      * Clear content of this node.
      */
     protected function clear(): void

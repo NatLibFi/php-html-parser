@@ -133,6 +133,16 @@ class TextNode extends LeafNode
     }
 
     /**
+     * Return the text.
+     *
+     * @uses $this->text()
+     */
+    public function innerText(): string
+    {
+        return $this->text();
+    }
+
+    /**
      * Checks if the current node is a text node.
      */
     public function isTextNode(): bool

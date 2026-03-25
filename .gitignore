@@ -6,5 +6,6 @@ infection.log
 .vscode/
 .php_cs_cache
 .phpunit.result.cache
+.phpstan_cache
 .rector/
 *.swp
