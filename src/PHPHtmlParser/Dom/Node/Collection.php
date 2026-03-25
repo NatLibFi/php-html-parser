@@ -10,6 +10,9 @@ use Countable;
 use IteratorAggregate;
 use PHPHtmlParser\Exceptions\EmptyCollectionException;
 
+use function call_user_func_array;
+use function count;
+
 /**
  * Class Collection.
  */
@@ -32,9 +35,9 @@ class Collection implements IteratorAggregate, ArrayAccess, Countable
      */
     public function __call(string $method, array $arguments)
     {
-        $node = \reset($this->collection);
+        $node = reset($this->collection);
         if ($node instanceof AbstractNode) {
-            return \call_user_func_array([$node, $method], $arguments);
+            return call_user_func_array([$node, $method], $arguments);
         }
         throw new EmptyCollectionException('The collection does not contain any Nodes.');
     }
@@ -51,7 +54,7 @@ class Collection implements IteratorAggregate, ArrayAccess, Countable
      */
     public function __get($key)
     {
-        $node = \reset($this->collection);
+        $node = reset($this->collection);
         if ($node instanceof AbstractNode) {
             return $node->$key;
         }
@@ -64,9 +67,9 @@ class Collection implements IteratorAggregate, ArrayAccess, Countable
      */
     public function __toString(): string
     {
-        $node = \reset($this->collection);
+        $node = reset($this->collection);
         if ($node instanceof AbstractNode) {
-            return (string) $node;
+            return (string)$node;
         }
 
         return '';
@@ -77,7 +80,7 @@ class Collection implements IteratorAggregate, ArrayAccess, Countable
      */
     public function count(): int
     {
-        return \count($this->collection);
+        return count($this->collection);
     }
 
     /**
@@ -96,7 +99,7 @@ class Collection implements IteratorAggregate, ArrayAccess, Countable
      */
     public function offsetSet($offset, $value): void
     {
-        if (\is_null($offset)) {
+        if (null === $offset) {
             $this->collection[] = $value;
         } else {
             $this->collection[$offset] = $value;

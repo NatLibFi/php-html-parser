@@ -107,7 +107,7 @@ class HtmlNode extends InnerNode
             } elseif ($child instanceof HtmlNode) {
                 $string .= $child->outerHtml();
             } else {
-                throw new UnknownChildTypeException('Unknown child type "' . \get_class($child) . '" found in node');
+                throw new UnknownChildTypeException('Unknown child type "' . $child::class . '" found in node');
             }
 
             try {
@@ -133,8 +133,8 @@ class HtmlNode extends InnerNode
      */
     public function innerText(): string
     {
-        if (\is_null($this->innerText)) {
-            $this->innerText = \strip_tags($this->innerHtml());
+        if (null === $this->innerText) {
+            $this->innerText = strip_tags($this->innerHtml());
         }
 
         return $this->innerText;

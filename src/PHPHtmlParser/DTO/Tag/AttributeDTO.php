@@ -45,8 +45,8 @@ final class AttributeDTO
 
     public function htmlspecialcharsDecode(): void
     {
-        if (!\is_null($this->value)) {
-            $this->value = \htmlspecialchars_decode($this->value);
+        if (null !== $this->value) {
+            $this->value = htmlspecialchars_decode($this->value);
         }
     }
 

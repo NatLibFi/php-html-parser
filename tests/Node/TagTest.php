@@ -43,7 +43,7 @@ class NodeTagTest extends TestCase
         $tag->setAttribute('href', 'http://google.com');
         $tag->setAttribute('class', 'clear-fix', true);
         $tag->removeAllAttributes();
-        $this->assertEquals(0, \count($tag->getAttributes()));
+        $this->assertCount(0, $tag->getAttributes());
     }
 
     public function testSetAttributeNoArray(): void

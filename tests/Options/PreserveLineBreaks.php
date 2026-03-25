@@ -16,7 +16,7 @@ class PreserveLineBreaks extends TestCase
         $dom->loadStr('<div class="stream-container ">
 <div class="stream-item js-new-items-bar-container"> </div> <div class="stream">');
 
-        $this->assertEquals("<div class=\"stream-container \">\n<div class=\"stream-item js-new-items-bar-container\"> </div> <div class=\"stream\"></div></div>", (string) $dom);
+        $this->assertEquals("<div class=\"stream-container \">\n<div class=\"stream-item js-new-items-bar-container\"> </div> <div class=\"stream\"></div></div>", (string)$dom);
     }
 
     public function testPreserveLineBreakBeforeClosingTag(): void
@@ -26,6 +26,6 @@ class PreserveLineBreaks extends TestCase
         $dom->loadStr('<div class="stream-container "
  ><div class="stream-item js-new-items-bar-container"> </div> <div class="stream">');
 
-        $this->assertEquals('<div class="stream-container "><div class="stream-item js-new-items-bar-container"> </div> <div class="stream"></div></div>', (string) $dom);
+        $this->assertEquals('<div class="stream-container "><div class="stream-item js-new-items-bar-container"> </div> <div class="stream"></div></div>', (string)$dom);
     }
 }

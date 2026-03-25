@@ -10,6 +10,10 @@ use PHPHtmlParser\Exceptions\CircularException;
 use PHPHtmlParser\Exceptions\LogicalException;
 use stringEncode\Encode;
 
+use function count;
+use function in_array;
+use function is_int;
+
 /**
  * Inner node of the html tree, might have children.
  *
@@ -80,7 +84,7 @@ abstract class InnerNode extends ArrayNode
                 $nodes[] = $child;
                 $childrenIds[] = $child->id;
                 $child = $this->nextChild($child->id());
-                if (\in_array($child->id, $childrenIds, true)) {
+                if (in_array($child->id, $childrenIds, true)) {
                     throw new CircularException('Circular sibling referance found. Child with id ' . $child->id() . ' found twice.');
                 }
             } while (true);
@@ -97,7 +101,7 @@ abstract class InnerNode extends ArrayNode
      */
     public function countChildren(): int
     {
-        return \count($this->children);
+        return count($this->children);
     }
 
     /**
@@ -151,7 +155,7 @@ abstract class InnerNode extends ArrayNode
             }
         }
 
-        $keys = \array_keys($this->children);
+        $keys = array_keys($this->children);
 
         $insert = [
             'node' => $child,
@@ -159,14 +163,14 @@ abstract class InnerNode extends ArrayNode
             'prev' => $key,
         ];
 
-        $index = $key ? (int) (\array_search($key, $keys, true) + 1) : 0;
-        \array_splice($keys, $index, 0, (string) $child->id());
+        $index = $key ? (int)(array_search($key, $keys, true) + 1) : 0;
+        array_splice($keys, $index, 0, (string)$child->id());
 
-        $children = \array_values($this->children);
-        \array_splice($children, $index, 0, [$insert]);
+        $children = array_values($this->children);
+        array_splice($children, $index, 0, [$insert]);
 
         // add the child
-        $combination = \array_combine($keys, $children);
+        $combination = array_combine($keys, $children);
         if ($combination === false) {
             // The number of elements for each array isn't equal or if the arrays are empty.
             throw new LogicalException('array combine failed during add child method call.');
@@ -205,8 +209,8 @@ abstract class InnerNode extends ArrayNode
             return false;
         }
 
-        if (isset($this->children[$id]['next']) && \is_int($this->children[$id]['next'])) {
-            return $this->addChild($child, (int) $this->children[$id]['next']);
+        if (isset($this->children[$id]['next']) && is_int($this->children[$id]['next'])) {
+            return $this->addChild($child, (int)$this->children[$id]['next']);
         }
 
         // clear cache
@@ -227,10 +231,10 @@ abstract class InnerNode extends ArrayNode
         // handle moving next and previous assignments.
         $next = $this->children[$id]['next'];
         $prev = $this->children[$id]['prev'];
-        if (!\is_null($next)) {
+        if (null !== $next) {
             $this->children[$next]['prev'] = $prev;
         }
-        if (!\is_null($prev)) {
+        if (null !== $prev) {
             $this->children[$prev]['next'] = $next;
         }
 
@@ -268,7 +272,7 @@ abstract class InnerNode extends ArrayNode
     {
         $child = $this->getChild($id);
         $next = $this->children[$child->id()]['next'];
-        if (\is_null($next) || !\is_int($next)) {
+        if (null === $next || !is_int($next)) {
             throw new ChildNotFoundException("Child '$id' next sibling not found in this node.");
         }
 
@@ -286,7 +290,7 @@ abstract class InnerNode extends ArrayNode
     {
         $child = $this->getchild($id);
         $next = $this->children[$child->id()]['prev'];
-        if (\is_null($next) || !\is_int($next)) {
+        if (null === $next || !is_int($next)) {
             throw new ChildNotFoundException("Child '$id' previous not found in this node.");
         }
 
@@ -299,7 +303,7 @@ abstract class InnerNode extends ArrayNode
      */
     public function isChild(int $id): bool
     {
-        foreach (\array_keys($this->children) as $childId) {
+        foreach (array_keys($this->children) as $childId) {
             if ($id == $childId) {
                 return true;
             }
@@ -318,13 +322,13 @@ abstract class InnerNode extends ArrayNode
     {
         $oldChild = $this->children[$childId];
 
-        $newChild->prev = (int) $oldChild['prev'];
-        $newChild->next = (int) $oldChild['next'];
+        $newChild->prev = (int)$oldChild['prev'];
+        $newChild->next = (int)$oldChild['next'];
 
-        $keys = \array_keys($this->children);
-        $index = \array_search($childId, $keys, true);
+        $keys = array_keys($this->children);
+        $index = array_search($childId, $keys, true);
         $keys[$index] = $newChild->id();
-        $combination = \array_combine($keys, $this->children);
+        $combination = array_combine($keys, $this->children);
         if ($combination === false) {
             // The number of elements for each array isn't equal or if the arrays are empty.
             throw new LogicalException('array combine failed during replace child method call.');
@@ -362,13 +366,13 @@ abstract class InnerNode extends ArrayNode
      */
     public function firstChild(): AbstractNode
     {
-        if (\count($this->children) == 0) {
+        if (count($this->children) == 0) {
             // no children
             throw new ChildNotFoundException('No children found in node.');
         }
 
-        \reset($this->children);
-        $key = (int) \key($this->children);
+        reset($this->children);
+        $key = (int)key($this->children);
 
         return $this->getChild($key);
     }
@@ -382,15 +386,15 @@ abstract class InnerNode extends ArrayNode
      */
     public function lastChild(): AbstractNode
     {
-        if (\count($this->children) == 0) {
+        if (count($this->children) == 0) {
             // no children
             throw new ChildNotFoundException('No children found in node.');
         }
 
-        \end($this->children);
-        $key = \key($this->children);
+        end($this->children);
+        $key = key($this->children);
 
-        if (!\is_int($key)) {
+        if (!is_int($key)) {
             throw new LogicalException('Children array contain child with a key that is not an int.');
         }
 

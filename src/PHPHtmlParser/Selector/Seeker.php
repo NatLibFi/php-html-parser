@@ -11,6 +11,10 @@ use PHPHtmlParser\Dom\Node\LeafNode;
 use PHPHtmlParser\DTO\Selector\RuleDTO;
 use PHPHtmlParser\Exceptions\ChildNotFoundException;
 
+use function count;
+use function is_array;
+use function is_string;
+
 class Seeker implements SeekerInterface
 {
     /**
@@ -24,7 +28,7 @@ class Seeker implements SeekerInterface
     public function seek(array $nodes, RuleDTO $rule, array $options): array
     {
         // XPath index
-        if ($rule->getTag() !== null && \is_numeric($rule->getKey())) {
+        if ($rule->getTag() !== null && is_numeric($rule->getKey())) {
             $count = 0;
             foreach ($nodes as $node) {
                 if ($rule->getTag() == '*'
@@ -54,9 +58,9 @@ class Seeker implements SeekerInterface
 
             $children = [];
             $child = $node->firstChild();
-            while (!\is_null($child)) {
+            while (null !== $child) {
                 // wild card, grab all
-                if ($rule->getTag() == '*' && \is_null($rule->getKey())) {
+                if ($rule->getTag() == '*' && null === $rule->getKey()) {
                     $return[] = $child;
                     $child = $this->getNextChild($node, $child);
                     continue;
@@ -97,7 +101,7 @@ class Seeker implements SeekerInterface
 
             if ((!isset($options['checkGrandChildren'])
                     || $options['checkGrandChildren'])
-                && \count($children) > 0
+                && count($children) > 0
             ) {
                 // we have children that failed but are not leaves.
                 $matches = $this->seek($children, $rule, $options);
@@ -121,7 +125,7 @@ class Seeker implements SeekerInterface
             $result = $this->checkNodeValue($nodeValue, $rule, $node);
         } else {
             // normal search
-            if (!\is_array($rule->getKey())) {
+            if (!is_array($rule->getKey())) {
                 $nodeValue = $node->getAttribute($rule->getKey());
                 $result = $this->checkNodeValue($nodeValue, $rule, $node);
             } else {
@@ -197,7 +201,7 @@ class Seeker implements SeekerInterface
      */
     private function checkKey(RuleDTO $rule, AbstractNode $node): bool
     {
-        if (!\is_array($rule->getKey())) {
+        if (!is_array($rule->getKey())) {
             if ($rule->isNoKey()) {
                 if ($node->getAttribute($rule->getKey()) !== null) {
                     return false;
@@ -212,7 +216,7 @@ class Seeker implements SeekerInterface
         } else {
             if ($rule->isNoKey()) {
                 foreach ($rule->getKey() as $key) {
-                    if (!\is_null($node->getAttribute($key))) {
+                    if (null !== $node->getAttribute($key)) {
                         return false;
                     }
                 }
@@ -239,7 +243,7 @@ class Seeker implements SeekerInterface
         $check = false;
         if (
             $rule->getValue() !== null &&
-            \is_string($rule->getValue()) &&
+            is_string($rule->getValue()) &&
             $nodeValue !== null
         ) {
             $check = $this->match($rule->getOperator(), $rule->getValue(), $nodeValue);
@@ -250,14 +254,14 @@ class Seeker implements SeekerInterface
         if (
             !$check &&
             $key == 'class' &&
-            \is_array($rule->getValue())
+            is_array($rule->getValue())
         ) {
-            $nodeClasses = \explode(' ', $node->getAttribute('class') ?? '');
+            $nodeClasses = explode(' ', $node->getAttribute('class') ?? '');
             foreach ($rule->getValue() as $value) {
                 foreach ($nodeClasses as $class) {
                     if (
                         !empty($class) &&
-                        \is_string($rule->getOperator())
+                        is_string($rule->getOperator())
                     ) {
                         $check = $this->match($rule->getOperator(), $value, $class);
                     }
@@ -271,10 +275,10 @@ class Seeker implements SeekerInterface
             }
         } elseif (
             !$check &&
-            \is_array($key) &&
-            !\is_null($nodeValue) &&
-            \is_string($rule->getOperator()) &&
-            \is_string($rule->getValue()[$index])
+            is_array($key) &&
+            null !== $nodeValue &&
+            is_string($rule->getOperator()) &&
+            is_string($rule->getValue()[$index])
         ) {
             $check = $this->match($rule->getOperator(), $rule->getValue()[$index], $nodeValue);
         }
@@ -290,29 +294,29 @@ class Seeker implements SeekerInterface
         string $pattern,
         string $value
     ): bool {
-        $value = \strtolower($value);
-        $pattern = \strtolower($pattern);
+        $value = strtolower($value);
+        $pattern = strtolower($pattern);
         switch ($operator) {
             case '=':
                 return $value === $pattern;
             case '!=':
                 return $value !== $pattern;
             case '^=':
-                return \preg_match(
-                    '/^' . \preg_quote($pattern, '/') . '/',
+                return preg_match(
+                    '/^' . preg_quote($pattern, '/') . '/',
                     $value
                 ) == 1;
             case '$=':
-                return \preg_match(
-                    '/' . \preg_quote($pattern, '/') . '$/',
+                return preg_match(
+                    '/' . preg_quote($pattern, '/') . '$/',
                     $value
                 ) == 1;
             case '*=':
                 if ($pattern[0] == '/') {
-                    return \preg_match($pattern, $value) == 1;
+                    return preg_match($pattern, $value) == 1;
                 }
 
-                return \preg_match('/' . $pattern . '/i', $value) == 1;
+                return preg_match('/' . $pattern . '/i', $value) == 1;
             default:
                 return false;
         }

@@ -49,7 +49,7 @@ class TextNode extends LeafNode
     {
         if ($removeDoubleSpace) {
             // remove double spaces
-            $replacedText = \mb_ereg_replace('\s+', ' ', $text);
+            $replacedText = mb_ereg_replace('\s+', ' ', $text);
             if ($replacedText === false) {
                 throw new LogicalException('mb_ereg_replace returns false when attempting to clean white space from "' . $text . '".');
             }
@@ -57,7 +57,7 @@ class TextNode extends LeafNode
         }
 
         // restore line breaks
-        $text = \str_replace('&#10;', "\n", $text);
+        $text = str_replace('&#10;', "\n", $text);
 
         $this->text = $text;
         $this->tag = new Tag('text');
@@ -79,13 +79,13 @@ class TextNode extends LeafNode
     public function text(): string
     {
         if ($this->htmlSpecialCharsDecode) {
-            $text = \htmlspecialchars_decode($this->text);
+            $text = htmlspecialchars_decode($this->text);
         } else {
             $text = $this->text;
         }
         // convert charset
-        if (!\is_null($this->encode)) {
-            if (!\is_null($this->convertedText)) {
+        if (null !== $this->encode) {
+            if (null !== $this->convertedText) {
                 // we already know the converted value
                 return $this->convertedText;
             }
@@ -108,7 +108,7 @@ class TextNode extends LeafNode
     public function setText(string $text): void
     {
         $this->text = $text;
-        if (!\is_null($this->encode)) {
+        if (null !== $this->encode) {
             $text = $this->encode->convert($text);
 
             // remember the conversion

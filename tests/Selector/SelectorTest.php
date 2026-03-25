@@ -139,7 +139,7 @@ class SelectorTest extends TestCase
         $child2->addChild($child3);
 
         $selector = new Selector('a, p', new Parser());
-        $this->assertEquals(3, \count($selector->find($root)));
+        $this->assertCount(3, $selector->find($root));
     }
 
     public function testFindXpathKeySelector(): void
@@ -173,7 +173,7 @@ class SelectorTest extends TestCase
         $child1->addChild($child2);
 
         $selector = new Selector('div li', new Parser());
-        $this->assertEquals(1, \count($selector->find($root)));
+        $this->assertCount(1, $selector->find($root));
     }
 
     public function testFindAllChildren(): void
@@ -189,7 +189,7 @@ class SelectorTest extends TestCase
         $parent->addChild($child2);
 
         $selector = new Selector('div ul', new Parser());
-        $this->assertEquals(2, \count($selector->find($root)));
+        $this->assertCount(2, $selector->find($root));
     }
 
     public function testFindChildUsingChildSelector(): void
@@ -205,7 +205,7 @@ class SelectorTest extends TestCase
         $parent->addChild($child2);
 
         $selector = new Selector('div > ul', new Parser());
-        $this->assertEquals(1, \count($selector->find($root)));
+        $this->assertCount(1, $selector->find($root));
     }
 
     public function testFindNodeByAttributeOnly(): void
@@ -216,7 +216,7 @@ class SelectorTest extends TestCase
         $root->addChild($child1);
 
         $selector = new Selector('[custom-attr]', new Parser());
-        $this->assertEquals(1, \count($selector->find($root)));
+        $this->assertCount(1, $selector->find($root));
     }
 
     public function testFindMultipleClasses(): void
@@ -230,6 +230,6 @@ class SelectorTest extends TestCase
         $root->addChild($child2);
 
         $selector = new Selector('a.b.c', new Parser());
-        $this->assertEquals(1, \count($selector->find($root)));
+        $this->assertCount(1, $selector->find($root));
     }
 }

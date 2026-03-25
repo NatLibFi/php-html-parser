@@ -23,6 +23,8 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 
+use function strlen;
+
 /**
  * Class Dom.
  */
@@ -55,6 +57,7 @@ class Dom implements DomInterface
      * @var ParserInterface
      */
     private $domParser;
+
     /**
      * @var CleanerInterface
      */
@@ -98,7 +101,7 @@ class Dom implements DomInterface
      */
     public function loadFromFile(string $file, ?Options $options = null): Dom
     {
-        $content = @\file_get_contents($file);
+        $content = @file_get_contents($file);
         if ($content === false) {
             throw new LogicalException('file_get_contents failed and returned false when trying to read "' . $file . '".');
         }
@@ -156,7 +159,7 @@ class Dom implements DomInterface
 
         $this->content = new Content($html);
 
-        $this->root = $this->domParser->parse($localOptions, $this->content, \strlen($str));
+        $this->root = $this->domParser->parse($localOptions, $this->content, strlen($str));
         $this->domParser->detectCharset($localOptions, $this->defaultCharset, $this->root);
 
         return $this;
@@ -190,8 +193,6 @@ class Dom implements DomInterface
     /**
      * Simple wrapper function that returns an element by the
      * id.
-     *
-     * @param $id
      *
      * @throws NotLoadedException
      * @throws ChildNotFoundException
@@ -244,7 +245,7 @@ class Dom implements DomInterface
      */
     private function isLoaded(): void
     {
-        if (\is_null($this->content)) {
+        if (null === $this->content) {
             throw new NotLoadedException('Content is not loaded!');
         }
     }

@@ -12,7 +12,7 @@ class CommentTest extends TestCase
      * Data provider for testComment.
      *
      */
-    public function getTestCommentData(): array
+    public static function getTestCommentData(): array
     {
         return [
             ['<!-- test comment with number 2 -->'],

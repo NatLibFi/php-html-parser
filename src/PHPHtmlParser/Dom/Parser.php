@@ -19,6 +19,9 @@ use PHPHtmlParser\Exceptions\StrictException;
 use PHPHtmlParser\Options;
 use stringEncode\Encode;
 
+use function in_array;
+use function strlen;
+
 class Parser implements ParserInterface
 {
     /**
@@ -84,7 +87,7 @@ class Parser implements ParserInterface
                     $activeNode = $node;
                 }
             } elseif ($options->isWhitespaceTextNode() ||
-                \trim($str) != ''
+                trim($str) != ''
             ) {
                 // we found text we care about
                 $textNode = new TextNode($str, $options->isRemoveDoubleSpace());
@@ -130,15 +133,15 @@ class Parser implements ParserInterface
             return true;
         }
         $content = $meta->getAttribute('content');
-        if (\is_null($content)) {
+        if (null === $content) {
             // could not find content
             $root->propagateEncoding($encode);
 
             return false;
         }
         $matches = [];
-        if (\preg_match('/charset=([^;]+)/', $content, $matches)) {
-            $encode->from(\trim($matches[1]));
+        if (preg_match('/charset=([^;]+)/', $content, $matches)) {
+            $encode->from(trim($matches[1]));
             $root->propagateEncoding($encode);
 
             return true;
@@ -192,8 +195,8 @@ class Parser implements ParserInterface
                 ->setClosing('-->')
                 ->selfClosing();
         } else {
-            $tag = \strtolower($content->copyByToken(StringToken::SLASH(), true));
-            if (\trim($tag) == '') {
+            $tag = strtolower($content->copyByToken(StringToken::SLASH(), true));
+            if (trim($tag) == '') {
                 // no tag found, invalid < found
                 return TagDTO::makeFromPrimitives();
             }
@@ -207,7 +210,7 @@ class Parser implements ParserInterface
             // self closing tag
             $node->getTag()->selfClosing();
             $content->fastForward(1);
-        } elseif (\in_array($node->getTag()->name(), $options->getSelfClosing(), true)) {
+        } elseif (in_array($node->getTag()->name(), $options->getSelfClosing(), true)) {
             // Should be a self closing tag, check if we are strict
             if ($options->isStrict()) {
                 $character = $content->getPosition();
@@ -218,7 +221,7 @@ class Parser implements ParserInterface
             $node->getTag()->selfClosing();
 
             // Should this tag use a trailing slash?
-            if (\in_array($node->getTag()->name(), $options->getNoSlash(), true)) {
+            if (in_array($node->getTag()->name(), $options->getNoSlash(), true)) {
                 $node->getTag()->noTrailingSlash();
             }
         }
@@ -241,7 +244,7 @@ class Parser implements ParserInterface
             return false;
         }
 
-        $encode->from(\trim($meta->getAttribute('charset')));
+        $encode->from(trim($meta->getAttribute('charset')));
         $root->propagateEncoding($encode);
 
         return true;
@@ -260,12 +263,12 @@ class Parser implements ParserInterface
         $content->fastForward(1);
 
         // check if this closing tag counts
-        $tag = \strtolower($tag);
-        if (\in_array($tag, $options->getSelfClosing(), true)) {
+        $tag = strtolower($tag);
+        if (in_array($tag, $options->getSelfClosing(), true)) {
             return TagDTO::makeFromPrimitives(true);
         }
 
-        return TagDTO::makeFromPrimitives(true, true, null, \strtolower($tag));
+        return TagDTO::makeFromPrimitives(true, true, null, strtolower($tag));
     }
 
     /**
@@ -313,7 +316,7 @@ class Parser implements ParserInterface
                         do {
                             $moreString = $content->copyUntilUnless('"', '=>');
                             $string .= $moreString;
-                        } while (\strlen($moreString) > 0 && $content->getPosition() < $size);
+                        } while (strlen($moreString) > 0 && $content->getPosition() < $size);
                         $content->fastForward(1);
                         $node->getTag()->setAttribute($name, $string);
                         break;
@@ -323,7 +326,7 @@ class Parser implements ParserInterface
                         do {
                             $moreString = $content->copyUntilUnless("'", '=>');
                             $string .= $moreString;
-                        } while (\strlen($moreString) > 0 && $content->getPosition() < $size);
+                        } while (strlen($moreString) > 0 && $content->getPosition() < $size);
                         $content->fastForward(1);
                         $node->getTag()->setAttribute($name, $string, false);
                         break;
