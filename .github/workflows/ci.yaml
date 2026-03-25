@@ -39,7 +39,4 @@ jobs:
         run: composer install --dev --no-interaction
 
       - name: Run tests
-        run: vendor/bin/phpunit
-
-      - name: Run php-cs-fixer
-        run: vendor/bin/php-cs-fixer fix --dry-run -v --diff
+        run: composer qa
