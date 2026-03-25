@@ -16,7 +16,7 @@ Install the latest version using composer.
 $ composer require natlibfi/php-html-parser
 ```
 
-This package can be found on [packagist](https://packagist.org/packages/natlibfi/php-html-parser) and is best loaded using [composer](http://getcomposer.org/). We support php 7.4, 8.0 and 8.1.
+This package can be found on [packagist](https://packagist.org/packages/natlibfi/php-html-parser) and is best loaded using [composer](http://getcomposer.org/). We support PHP 8.2 - 8.5.
 
 Basic Usage
 -----
